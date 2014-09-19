@@ -1,7 +1,8 @@
 @import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
 
-@mixin background-hover($color) {
+@mixin hoverable($color) {
   background-color: $color;
+  cursor: pointer;
   &:hover {
     background-color: darken($color, 5%);
   }
@@ -15,23 +16,23 @@ $green: #35AD28;
 $orange: #ED6D26;
 
 .hover-lightblue {
-  @include background-hover($lightblue);
+  @include hoverable($lightblue);
 }
 
 .hover-green {
-  @include background-hover($green);
+  @include hoverable($green);
 }
 
 .hover-blue {
-  @include background-hover($blue);
+  @include hoverable($blue);
 }
 
 .hover-yellow {
-  @include background-hover($yellow);
+  @include hoverable($yellow);
 }
 
 .hover-red {
-  @include background-hover($red);
+  @include hoverable($red);
 }
 
 .bullet {
@@ -82,18 +83,19 @@ $orange: #ED6D26;
   .caret {
     height: 20px;
     width: 30px;
-    border-bottom: 10px solid black;
+    border-bottom: 10px solid white;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-top: 10px solid transparent;
     position: absolute;
     margin-left: -15px;
-    bottom: 10px;
+    bottom: 0;
     @include transition(all, 0.5s, easy-in-out);
   }
 
   .navbar-tab {
     float: left;
+    min-height: 50px;
     padding: 10px 0;
   }
 
