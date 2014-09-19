@@ -17,7 +17,8 @@ angular.module('geekstrap')
             this.tabs[key].$digest();
           }
           var tab = this.tabs[id];
-          $scope.caretOffset.left = tab.offset + tab.width / 2 + 'px';
+          $scope.caretOffset.left = tab.offset + 'px';
+          $scope.caretOffset.width = tab.width + 'px';
           $scope.$digest();
         };
 
@@ -27,7 +28,8 @@ angular.module('geekstrap')
           var index = this.tabs.length;
           this.tabs[index] = tab;
           if (index == 0) {
-            $scope.caretOffset.left = tab.width / 2 + 'px';
+            $scope.caretOffset.left = '0px';
+            $scope.caretOffset.width = tab.width;
             tab.active = true;
           }
           tab.offset = this.offset;

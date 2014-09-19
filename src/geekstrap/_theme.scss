@@ -3,7 +3,7 @@
 @mixin hoverable($color) {
   background-color: $color;
   cursor: pointer;
-  &:hover {
+  &:hover:not(.active) {
     background-color: darken($color, 5%);
   }
 }
@@ -33,6 +33,10 @@ $orange: #ED6D26;
 
 .hover-red {
   @include hoverable($red);
+}
+
+.hover-white {
+  @include hoverable(#FFF);
 }
 
 .bullet {
@@ -80,15 +84,11 @@ $orange: #ED6D26;
   position: relative;
   text-align: center;
   display: inline-block;
-  .caret {
-    height: 20px;
-    width: 30px;
-    border-bottom: 10px solid white;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 10px solid transparent;
+  .navbar-caret {
+    height: 5px;
+    width: 100px;
+    background-color: $lightblue;
     position: absolute;
-    margin-left: -15px;
     bottom: 0;
     @include transition(all, 0.5s, easy-in-out);
   }
@@ -96,7 +96,12 @@ $orange: #ED6D26;
   .navbar-tab {
     float: left;
     min-height: 50px;
-    padding: 10px 0;
   }
 
+  .navbar-tab + .navbar-tab {
+    >div {
+      min-height: 50px;
+      border-left: 1px solid black;
+    }
+  }
 }

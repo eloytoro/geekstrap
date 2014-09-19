@@ -23,10 +23,11 @@ gulp.task('build', ['sass'], function () {
 
 gulp.task('sass', function () {
   var files = mainBowerFiles().filter(function(element) {
-    return element.substring(element.indexOf('.scss')) == '.scss'
-      || element.substring(element.indexOf('.sass')) == '.sass';
+    return (element.substring(element.indexOf('.scss')) == '.scss'
+      || element.substring(element.indexOf('.sass')) == '.sass')
+      && element[0] != '_';
   });
-  files.push('./sass/*.{sass,scss}', './src/**/*.{sass,scss}');
+  files.push('./sass/[^_]*.{sass,scss}', './src/**/[^_]*.{sass,scss}');
   return gulp
   .src(files)
   .pipe(sass({
