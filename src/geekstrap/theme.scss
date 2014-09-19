@@ -1,0 +1,100 @@
+@import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+
+@mixin background-hover($color) {
+  background-color: $color;
+  &:hover {
+    background-color: darken($color, 5%);
+  }
+}
+
+$yellow: #EFAE1D;
+$red: #F93030;
+$lightblue: #238FB5;
+$blue: #3A69A3;
+$green: #35AD28;
+$orange: #ED6D26;
+
+.hover-lightblue {
+  @include background-hover($lightblue);
+}
+
+.hover-green {
+  @include background-hover($green);
+}
+
+.hover-blue {
+  @include background-hover($blue);
+}
+
+.hover-yellow {
+  @include background-hover($yellow);
+}
+
+.hover-red {
+  @include background-hover($red);
+}
+
+.bullet {
+  $bullet_height: 40px;
+  $bullet_radius: 20px;
+  $bullet_padding: 2px;
+  $transition_time: 0.2s;
+
+  height: $bullet_height;
+  border-radius: $bullet_radius;
+  padding: 0 $bullet_radius;
+  position: relative;
+  border: 0;
+  color: white;
+
+  &:hover {
+    img {
+      left: 50%;
+    }
+
+    div {
+      opacity: 0;
+    }
+  }
+
+  img {
+    top: 2px;
+    left: 20px;
+    margin-left: -18px;
+    float: left;
+    position: absolute;
+    @include transition(all, $transition_time, easy-in-out);
+    float: right;
+    height: 36px;
+  }
+
+  div {
+    padding-left: 22px;
+    @include transition(all, $transition_time, easy-in-out);
+  }
+}
+
+.navbar {
+
+  position: relative;
+  text-align: center;
+  display: inline-block;
+  .caret {
+    height: 20px;
+    width: 30px;
+    border-bottom: 10px solid black;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 10px solid transparent;
+    position: absolute;
+    margin-left: -15px;
+    bottom: 10px;
+    @include transition(all, 0.5s, easy-in-out);
+  }
+
+  .navbar-tab {
+    float: left;
+    padding: 10px 0;
+  }
+
+}

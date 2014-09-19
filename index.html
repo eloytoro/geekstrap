@@ -1,0 +1,74 @@
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <meta charset="UTF-8">
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="css/geekstrap/theme.min.css">
+    <!-- endinject -->
+
+  </head>
+  <body ng-controller="BodyController" class="container-fluid text-center">
+
+    <navbar>
+    <navbar-tab link="mundo" class="my-tab">mundo</navbar-tab>
+    <navbar-tab link="mundo" class="my-tab">mundo</navbar-tab>
+    <navbar-tab link="mundo" class="my-big-tab">mundo</navbar-tab>
+    <navbar-tab link="mundo" class="my-tab">mundo</navbar-tab>
+    <navbar-tab link="mundo" class="my-tab">mundo</navbar-tab>
+    <navbar-tab link="mundo" class="my-big-tab">mundo</navbar-tab>
+    <navbar-tab link="mundo" class="my-tab">hola</navbar-tab>
+    </navbar>
+
+    <div class="container">
+      <div class="row">
+        <input type="text" ng-model="bulletTooltip"></input>
+      </div>
+      <div class="row">
+        <bullet logo="img/linkedin-logo.png" class="hover-yellow">
+        {{bulletTooltip}}
+        </bullet>
+        <bullet logo="img/linkedin-logo.png" class="hover-red">
+        {{bulletTooltip}}
+        </bullet>
+        <bullet logo="img/linkedin-logo.png" class="hover-green">
+        {{bulletTooltip}}
+        </bullet>
+        <bullet logo="img/linkedin-logo.png" class="hover-lightblue">
+        {{bulletTooltip}}
+        </bullet>
+        <bullet logo="img/linkedin-logo.png" class="hover-blue">
+        {{bulletTooltip}}
+        </bullet>
+      </div>
+    </div>
+
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
+    <!-- endinject -->
+
+    <!-- inject:js -->
+    <script src="src/geekstrap/module.js"></script>
+    <script src="src/geekstrap/directives/navbar.js"></script>
+    <script src="src/geekstrap/directives/navbar-tab.js"></script>
+    <script src="src/geekstrap/directives/bullet-button.js"></script>
+    <script src="src/app/module.js"></script>
+    <script src="src/app/controllers/body-controller.js"></script>
+    <!-- endinject -->
+
+  </body>
+</html>
