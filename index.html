@@ -41,6 +41,11 @@
         {{bulletTooltip}}
         </bullet>
       </div>
+      <div class="row">
+        <progress-button model="progress" onload="onload()" class="hover-green" ng-click="doload()">click me</progress-button>
+        <progress-button model="progress" onload="onload()" class="hover-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
+        <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
+      </div>
     </div>
 
     <!-- bower:js -->
@@ -62,6 +67,7 @@
 
     <!-- inject:js -->
     <script src="src/geekstrap/module.js"></script>
+    <script src="src/geekstrap/directives/progress-button.js"></script>
     <script src="src/geekstrap/directives/navbar.js"></script>
     <script src="src/geekstrap/directives/navbar-tab.js"></script>
     <script src="src/geekstrap/directives/bullet-button.js"></script>

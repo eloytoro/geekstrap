@@ -16,22 +16,27 @@ $green: #35AD28;
 $orange: #ED6D26;
 
 .hover-lightblue {
+  color: white;
   @include hoverable($lightblue);
 }
 
 .hover-green {
+  color: white;
   @include hoverable($green);
 }
 
 .hover-blue {
+  color: white;
   @include hoverable($blue);
 }
 
 .hover-yellow {
+  color: white;
   @include hoverable($yellow);
 }
 
 .hover-red {
+  color: white;
   @include hoverable($red);
 }
 
@@ -50,7 +55,6 @@ $orange: #ED6D26;
   padding: 0 $bullet_radius;
   position: relative;
   border: 0;
-  color: white;
 
   &:hover {
     img {
@@ -104,4 +108,40 @@ $orange: #ED6D26;
       border-left: 1px solid black;
     }
   }
+}
+
+.progress-button {
+  text-align: center;
+  height: 40px;
+  display: inline-block;
+  @include transition(scaleY, 0.3s, linear);
+  overflow: hidden;
+  position: relative;
+  border: 0;
+  padding: 0;
+  .content {
+    display: table-cell;
+    vertical-align: middle;
+    height: 40px;
+    padding: 0 25px;
+    @include transition(opacity, 0.3s, linear);
+  }
+  .progress-button-bar {
+    position: absolute;
+    height: 40px;
+    top: 0;
+    opacity: 0;
+    background-color: black;
+    @include transition(all, 0.3s, linear);
+  }
+  &.loading {
+    .content {
+      opacity: 0;
+    }
+    .progress-button-bar {
+      opacity: 0.7;
+    }
+    @include scaleY(0.3);
+  }
+
 }
