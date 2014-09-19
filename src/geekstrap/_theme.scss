@@ -6,6 +6,8 @@
   &:hover:not(.active) {
     background-color: darken($color, 5%);
   }
+  @include box-shadow(0 5px 0 darken($color, 10%));
+  margin-bottom: 5px;
 }
 
 $yellow: #EFAE1D;
@@ -14,6 +16,10 @@ $lightblue: #238FB5;
 $blue: #3A69A3;
 $green: #35AD28;
 $orange: #ED6D26;
+
+button {
+  outline: none;
+}
 
 .hover-lightblue {
   color: white;
@@ -119,6 +125,7 @@ $orange: #ED6D26;
   position: relative;
   border: 0;
   padding: 0;
+  border-radius: 5px;
   .content {
     display: table-cell;
     vertical-align: middle;
