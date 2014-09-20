@@ -13,6 +13,9 @@ angular.module('geekstrap')
     link: function (scope, element, attrs, controller) {
       scope.width = $(element).width();
       scope.id = controller.addTab(scope);
+      scope.refresh = function() {
+        scope.width = $(element).width();
+      };
       element.on('click', function() {
         controller.setActive(scope.id);
       });
