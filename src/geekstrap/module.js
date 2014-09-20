@@ -1,1 +1,1 @@
-angular.module('geekstrap', []);
+angular.module('geekstrap', ['ngAnimate']);

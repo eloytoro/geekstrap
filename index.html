@@ -45,12 +45,23 @@
         <progress-button model="progress" onload="onload()" class="hover-green" ng-click="doload()">click me</progress-button>
         <progress-button model="progress" onload="onload()" class="hover-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
         <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
+
+      </div>
+      <div class="row">
+        <button class="hover-red" ng-click="alertRed('red')">red alert</button>
+        <button class="hover-green" ng-click="alertGreen('green')">green alert</button>
+      </div>
+
+      <div class="alert-field">
+        <alert trigger="alertRed" class="hover-red"></alert>
+        <alert trigger="alertGreen" class="hover-green"></alert>
       </div>
     </div>
 
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
@@ -71,6 +82,7 @@
     <script src="src/geekstrap/directives/navbar.js"></script>
     <script src="src/geekstrap/directives/navbar-tab.js"></script>
     <script src="src/geekstrap/directives/bullet-button.js"></script>
+    <script src="src/geekstrap/directives/alert.js"></script>
     <script src="src/app/module.js"></script>
     <script src="src/app/controllers/body-controller.js"></script>
     <!-- endinject -->

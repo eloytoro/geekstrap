@@ -1,0 +1,5 @@
+<div class="alert alert-dismissible" role="alert" ng-repeat="alert in cluster" ng-click="controller.destroy($index)">
+  <button type="button" class="close"><span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close</span></button>
+  <span>{{alert.message}}</span>
+</div>

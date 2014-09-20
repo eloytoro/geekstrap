@@ -19,6 +19,13 @@ $orange: #ED6D26;
 
 button {
   outline: none;
+  border: 0;
+  padding: 0;
+  border-radius: 5px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  padding: 5px 10px;
 }
 
 .hover-lightblue {
@@ -78,14 +85,14 @@ button {
     margin-left: -18px;
     float: left;
     position: absolute;
-    @include transition(all, $transition_time, easy-in-out);
+    @include transition(all $transition_time);
     float: right;
     height: 36px;
   }
 
   div {
     padding-left: 22px;
-    @include transition(all, $transition_time, easy-in-out);
+    @include transition(all $transition_time);
   }
 }
 
@@ -100,7 +107,7 @@ button {
     background-color: $lightblue;
     position: absolute;
     bottom: 0;
-    @include transition(all, 0.5s, easy-in-out);
+    @include transition(all 0.5s);
   }
 
   .navbar-tab {
@@ -117,29 +124,21 @@ button {
 }
 
 .progress-button {
-  text-align: center;
   height: 40px;
-  display: inline-block;
-  @include transition(scaleY, 0.3s, linear);
+  @include transition-transform(0.3s linear);
   overflow: hidden;
   position: relative;
-  border: 0;
-  padding: 0;
-  border-radius: 5px;
   .content {
-    display: table-cell;
-    vertical-align: middle;
-    height: 40px;
-    padding: 0 25px;
-    @include transition(opacity, 0.3s, linear);
+    @include transition(opacity 0.3s linear);
   }
   .progress-button-bar {
     position: absolute;
     height: 40px;
     top: 0;
+    left: 0;
     opacity: 0;
     background-color: black;
-    @include transition(all, 0.3s, linear);
+    @include transition(all 0.3s linear);
   }
   &.loading {
     .content {
@@ -151,4 +150,23 @@ button {
     @include scaleY(0.3);
   }
 
+}
+
+.alert {
+  display: inline-block;
+  min-width: 200px;
+  text-align: left;
+  opacity: 0.8;
+
+  @include transition(all 0.3s linear);
+
+  &.ng-enter, &.ng-move, &.ng-leave.ng-leave-active {
+    @include rotateX(90deg);
+    opacity: 0;
+  }
+
+  &.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
+    @include rotateX(0deg);
+    opacity: 0.8;
+  }
 }

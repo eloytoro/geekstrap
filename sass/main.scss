@@ -4,18 +4,6 @@
   margin-top: 100px;
 }
 
-.my-tab {
-  width: 100px;
-  background-color: darkgray;
-  color: white;
-}
-
-.my-big-tab {
-  width: 250px;
-  background-color: black;
-  color: white;
-}
-
 .tab {
   padding-top: 10px;
   text-align: center;
@@ -31,4 +19,12 @@
 
 .row {
   margin-bottom: 10px;
+}
+
+.alert-field {
+  z-index: 9000;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 300px;
 }
