@@ -8,12 +8,14 @@ angular.module('geekstrap')
     templateUrl: 'src/geekstrap/templates/sidebar.html',
     scope: {
       icon: '@',
-      default: '='
+      default: '=',
+      persist: '='
     },
     controller: ['$scope', function($scope) {
       this.items = [];
       $scope.offset = {};
       this.setActive = function(index) {
+        if (!$scope.persist) return;
         for (var key in this.items) {
           this.items[key].active = key == index;
           this.items[key].$digest();
@@ -62,7 +64,11 @@ angular.module('geekstrap')
     link: function (scope, element, attrs, controller) {
       scope.index = controller.addItem(scope);
       element.on('click', function() {
-        controller.setActive(scope.index);
+        if (scope.active) {
+          scope.active = false;
+        } else {
+          controller.setActive(scope.index);
+        }
       });
     }
   };

@@ -13,7 +13,7 @@
 
     <navbar default="tab2" class="navbar-fixed-top">
     <navbar-tab link="sidebar" activable="false" class="hover-white" ng-mouseenter="setPeek('-250px')">
-      <sidebar icon="fa fa-bars">
+      <sidebar icon="fa fa-bars" persist="true">
       <sidebar-item icon="fa fa-{{item.icon}}" ng-repeat="item in sidebarItems" ng-click="item.onclick()">{{item.title}}</sidebar-item>
       </sidebar>
     </navbar-tab>
