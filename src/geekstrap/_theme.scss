@@ -1,13 +1,19 @@
+$fa-font-path: "/bower_components/font-awesome/fonts";
+@import "bower_components/font-awesome/scss/font-awesome";
 @import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+
+@mixin shadow($color) {
+  @include box-shadow(0 5px 0 darken($color, 10%));
+  margin-bottom: 5px;
+}
 
 @mixin hoverable($color) {
   background-color: $color;
-  cursor: pointer;
   &:hover:not(.active) {
     background-color: darken($color, 5%);
   }
-  @include box-shadow(0 5px 0 darken($color, 10%));
-  margin-bottom: 5px;
+  @include shadow($color);
+  cursor: pointer;
 }
 
 $yellow: #EFAE1D;
@@ -16,6 +22,7 @@ $lightblue: #238FB5;
 $blue: #3A69A3;
 $green: #35AD28;
 $orange: #ED6D26;
+$lightgray: darken(#FFF, 10%);
 
 button {
   outline: none;
@@ -55,6 +62,30 @@ button {
 
 .hover-white {
   @include hoverable(#FFF);
+}
+
+.shadow-green {
+  color: white;
+  @include shadow($green);
+}
+
+.shadow-blue {
+  color: white;
+  @include shadow($blue);
+}
+
+.shadow-yellow {
+  color: white;
+  @include shadow($yellow);
+}
+
+.shadow-red {
+  color: white;
+  @include shadow($red);
+}
+
+.shadow-white {
+  @include shadow(#FFF);
 }
 
 .bullet {
@@ -98,8 +129,6 @@ button {
 
 .navbar {
 
-  position: relative;
-  text-align: center;
   .navbar-caret {
     height: 5px;
     width: 100px;
@@ -140,6 +169,8 @@ button {
     @include transition(all 0.3s linear);
   }
   &.loading {
+    box-shadow: 0 0 0 0;
+    border-radius: 0;
     .content {
       opacity: 0;
     }
@@ -167,5 +198,61 @@ button {
   &.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
     @include rotateX(0deg);
     opacity: 0.8;
+  }
+}
+
+.sidebar {
+
+  .sidebar-toggle {
+    line-height: 50px;
+    min-height: 50px;
+    width: 50px;
+    font-size: 20px;
+  }
+
+  position: relative;
+
+  .sidebar-content {
+    @include transition(left 0.4s ease);
+    left: -302px;
+    z-index: 9000;
+    height: 100vh;
+    top: 50px;
+    position: absolute;
+    border-right: 1px solid $lightgray;
+    background-color: white;
+
+    .sidebar-item {
+      width: 300px;
+      display: table;
+
+      >div {
+        float: left;
+        line-height: 40px;
+        background-color: inherit;
+      }
+
+      .sidebar-item-icon {
+        width: 50px;
+        font-size: 20px;
+      }
+
+      .sidebar-item-label {
+        width: 250px;
+      }
+
+      +.sidebar-item {
+        border-top: 1px solid $lightgray;
+      }
+
+      &.active {
+        background-color: $lightblue !important;
+        color: white;
+      }
+
+      &:hover {
+        background-color: $lightgray;
+      }
+    }
   }
 }

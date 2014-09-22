@@ -9,7 +9,7 @@
   text-align: center;
   color: darkgray;
 
-  @include transition(all, 0.5s, linear);
+  @include transition(all 0.5s linear);
 
   &.active {
     color: $blue;
@@ -28,4 +28,8 @@
   right: 20px;
   width: 300px;
   text-align: right;
+}
+
+.menu-icon {
+  float: left;
 }

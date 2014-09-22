@@ -6,6 +6,9 @@ angular.module('geekstrap')
       replace: true,
       transclude: true,
       templateUrl: 'src/geekstrap/templates/navbar.html',
+      scope: {
+        default: "@"
+      },
       controller: ['$scope', '$window', function ($scope, $window) {
         this.tabs = [];
         var vm = this;
@@ -25,6 +28,7 @@ angular.module('geekstrap')
         this.setActive = function(id) {
           for (var key in this.tabs) {
             this.tabs[key].active = id == key;
+            this.tabs[key].$digest();
           }
           $scope.activeTab = id;
           this.moveCaret(id);
@@ -34,9 +38,6 @@ angular.module('geekstrap')
         this.addTab = function(tab) {
           var index = this.tabs.length;
           this.tabs[index] = tab;
-          if (index == 0) {
-            tab.active = true;
-          }
           return index;
         };
 
@@ -50,7 +51,14 @@ angular.module('geekstrap')
 
       }],
       link: function (scope, element, attrs, controller) {
-        controller.moveCaret(0);
+        for (var i = 0; i < controller.tabs.length; i++) {
+          if (controller.tabs[i].link == scope.default) {
+            controller.tabs[i].active = true;
+            scope.activeTab = i;
+            controller.moveCaret(i);
+            break;
+          }
+        }
       }
     };
 });
