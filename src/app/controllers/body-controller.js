@@ -23,6 +23,21 @@ angular.module('app')
       }
     }];
 
+    $scope.alerts = [];
+
+    $scope.alert = function(text, type) {
+      $scope.alerts.push({
+        text: text,
+        class: "hover-green"
+      });
+    };
+    $scope.error = function(text, type) {
+      $scope.alerts.push({
+        text: text,
+        class: "hover-red"
+      });
+    };
+
     $scope.onload = function() {
       $interval.cancel(this.interval);
       this.interval = undefined;
@@ -36,9 +51,8 @@ angular.module('app')
       }, 200);
     }
 
-    $scope.setPeek = function(val) {
-      $scope.peek = val;
-    }
+    $scope.warningModalShow = function(flag) {
+      $scope.warningModalVisible = flag;
+    };
 
-    $scope.peek = '0px';
 }]);

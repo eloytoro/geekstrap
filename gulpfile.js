@@ -1,41 +1,37 @@
-var gulp            = require('gulp');
-var sass            = require('gulp-sass');
-var inject          = require("gulp-inject");
-var mainBowerFiles  = require('main-bower-files');
-var rename          = require('gulp-rename');
-var minifycss       = require('gulp-minify-css');
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var inject = require("gulp-inject");
+var mainBowerFiles = require('main-bower-files');
+var rename = require('gulp-rename');
+var minifycss = require('gulp-minify-css');
 var angularFilesort = require('gulp-angular-filesort');
-var connect         = require('gulp-connect');
+var connect = require('gulp-connect');
+var watch = require('gulp-watch');
+var filter = require('gulp-filter');
+var plumber = require('gulp-plumber');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
+var map = require('map-stream');
 
-gulp.task('build', ['sass'], function () {
-  var target = gulp.src('./index.html');
-  var bower = gulp.src(mainBowerFiles());
-  var src = gulp
-  .src('./src/**/*.js')
-  .pipe(angularFilesort());
+var globs = {
+  sass: ['sass/**/*.scss', 'src/**/*.scss'],
+  js: 'src/**/*.js',
+  html: '*/**/*.html',
+  css: 'css/*.css',
+  bower: mainBowerFiles()
+};
 
-  return target
-  .pipe(inject(bower, {relative: true, name: 'bower'}))
-  .pipe(inject(gulp.src('./css/**/*.min.css'), {relative: true}))
-  .pipe(inject(src, {relative: true}))
-  .pipe(gulp.dest('./'));
-});
+var logError = console.log.bind(console, '\007');
 
-gulp.task('sass', function () {
-  var files = mainBowerFiles().filter(function(element) {
-    return element.substring(element.indexOf('.scss')) == '.scss'
-      || element.substring(element.indexOf('.sass')) == '.sass';
-  });
-  files.push('./sass/*.{sass,scss}', './src/**/*.{sass,scss}');
-  return gulp
-  .src(files)
-  .pipe(sass({
-    errLogToConsole: true
-    // sourceComments: 'map'  -- Broken in current version of nodejs/libsass
-  }))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(minifycss())
-  .pipe(gulp.dest('css'));
+gulp.task('inject', function () {
+  return gulp.src('./index.html')
+    .pipe(inject(gulp.src(globs.bower), {relative: true, name: 'bower'}))
+    .pipe(inject(gulp.src(globs.css), {relative: true}))
+    .pipe(inject(gulp.src(globs.js).pipe(plumber()).pipe(angularFilesort()), {relative: true}))
+    .pipe(gulp.dest('./'))
+    .on('end', function () {
+      gulp.start('reload');
+    });
 });
 
 gulp.task('connect', function() {
@@ -46,20 +42,62 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('reload', ['build'], function() {
+gulp.task('reload', ['inject'], function() {
   gulp.src('./index.html')
   .pipe(connect.reload());
 });
 
-gulp.task('watch', ['build'], function () {
-  gulp.watch([
-    './sass/*.{sass,scss}',
-    './src/**/*.{sass,scss}',
-    './src/**/*.js',
-    './**/*.html'
-  ], ['reload']);
+gulp.task('sass-parser', function() {
+  return watch(globs.sass, {name: 'Sass-Parser'}, function(files, cb) {
+    return gulp.start('compile-sass', cb);
+  })
 });
 
-gulp.task('deploy', ['build']);
+//failsafe reporter defined within closure scope
+(function(reporter) {
+  gulp.task('js-parser', function() {
+    return watch(globs.js, {name: 'JS-Parser'})
+    .pipe(plumber())
+    .pipe(jshint())
+    .pipe(reporter)
+    .pipe(jshint.reporter(stylish));
+  });
+})(map(function(file, cb) {
+  if (file.jshint.success) {
+    gulp.start('build');
+  } else {
+    logError();
+  }
+  //cb continues the stream
+  cb(null, file);
+}));
+
+gulp.task('build', function() {
+  gulp.src('./index.html')
+  .pipe(inject(gulp.src(globs.bower), {relative: true, name: 'bower'}))
+  .pipe(inject(gulp.src(globs.css), {relative: true}))
+  .pipe(inject(gulp.src(globs.js).pipe(angularFilesort()), {relative: true}))
+  .pipe(plumber())
+  .pipe(gulp.dest('./'))
+});
+
+gulp.task('compile-sass', function() {
+  return gulp.src(globs.sass)
+  .pipe(sass({
+    onError: function(err) {
+      logError();
+      console.log(err);
+    }
+  }))
+  .pipe(rename({suffix: '.min'}))
+  .pipe(minifycss())
+  .pipe(gulp.dest('css'));
+});
+
+gulp.task('compile', ['compile-sass'], function() {
+  return gulp.start('build');
+});
+
+gulp.task('watch', ['compile', 'sass-parser', 'js-parser']);
 
 gulp.task('default', ['connect', 'watch']);

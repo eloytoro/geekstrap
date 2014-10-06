@@ -256,3 +256,38 @@ button {
     }
   }
 }
+
+.fg-modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: $lightblue;
+  color: white;
+  opacity: 0;
+  @include transition(opacity 0.5s);
+  z-index: 9200;
+  opacity: 0;
+  pointer-events: none;
+
+  &.visible {
+    pointer-events: all;
+    opacity: 0.9;
+  }
+
+}
+
+.vertical-block {
+  text-align: center;
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+  }
+}
+
+.vertical-center {
+  display: inline-block;
+  vertical-align: middle;
+}

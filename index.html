@@ -10,18 +10,23 @@
   </head>
   <body ng-controller="BodyController" class="container-fluid text-center">
 
+    <modal visible="warningModalVisible">
+      <p><h2>Warning!</h2></p>
+      <p>An error occurred</p>
+      <button class="hover-yellow fa fa-close" ng-click="warningModalShow(false)">Close</button>
+    </modal>
 
     <navbar default="tab2" class="navbar-fixed-top">
-    <navbar-tab link="sidebar" activable="false" class="hover-white" ng-mouseenter="setPeek('-250px')">
-      <sidebar icon="fa fa-bars" persist="true">
-      <sidebar-item icon="fa fa-{{item.icon}}" ng-repeat="item in sidebarItems" ng-click="item.onclick()">{{item.title}}</sidebar-item>
-      </sidebar>
-    </navbar-tab>
-    <navbar-tab style="width: 20%" link="tab2" class="hover-white tab">tab</navbar-tab>
-    <navbar-tab style="width: 20%" link="tab3" class="hover-white tab">tab</navbar-tab>
-    <navbar-tab style="width: 20%" link="tab4" class="hover-white tab">tab</navbar-tab>
-    <navbar-tab style="width: 20%" link="tab5" class="hover-white tab">tab</navbar-tab>
-    <navbar-tab style="width: 10%" link="tab5" class="hover-white tab">tab</navbar-tab>
+      <navbar-tab link="sidebar" activable="false" class="hover-white" ng-mouseenter="setPeek('-250px')">
+        <sidebar icon="fa fa-bars" persist="true">
+          <sidebar-item icon="fa fa-{{item.icon}}" ng-repeat="item in sidebarItems" ng-click="item.onclick()">{{item.title}}</sidebar-item>
+        </sidebar>
+      </navbar-tab>
+      <navbar-tab style="width: 20%" link="tab2" class="hover-white tab">tab</navbar-tab>
+      <navbar-tab style="width: 20%" link="tab3" class="hover-white tab">tab</navbar-tab>
+      <navbar-tab style="width: 20%" link="tab4" class="hover-white tab">tab</navbar-tab>
+      <navbar-tab style="width: 20%" link="tab5" class="hover-white tab">tab</navbar-tab>
+      <navbar-tab style="width: 10%" link="tab5" class="hover-white tab">tab</navbar-tab>
     </navbar>
 
     <div class="container">
@@ -30,35 +35,33 @@
       </div>
       <div class="row">
         <bullet logo="img/linkedin-logo.png" class="hover-yellow">
-        {{bulletTooltip}}
+          {{bulletTooltip}}
         </bullet>
-        <bullet logo="img/linkedin-logo.png" class="hover-red">
-        {{bulletTooltip}}
+        <bullet logo="img/plus-logo.png" class="hover-red" ng-click="warningModalShow(true)">
+          {{bulletTooltip}}
         </bullet>
         <bullet logo="img/linkedin-logo.png" class="hover-green">
-        {{bulletTooltip}}
+          {{bulletTooltip}}
         </bullet>
         <bullet logo="img/linkedin-logo.png" class="hover-lightblue">
-        {{bulletTooltip}}
+          {{bulletTooltip}}
         </bullet>
         <bullet logo="img/linkedin-logo.png" class="hover-blue">
-        {{bulletTooltip}}
+          {{bulletTooltip}}
         </bullet>
       </div>
       <div class="row">
         <progress-button model="progress" onload="onload()" class="hover-green" ng-click="doload()">click me</progress-button>
         <progress-button model="progress" onload="onload()" class="hover-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
         <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
-
       </div>
       <div class="row">
-        <button class="hover-red" ng-click="alertRed('red')">red alert</button>
-        <button class="hover-green" ng-click="alertGreen('green')">green alert</button>
+        <button class="hover-red" ng-click="error('Error')">red alert</button>
+        <button class="hover-green" ng-click="alert('Success')">green alert</button>
       </div>
 
       <div class="alert-field">
-        <alert trigger="alertRed" class="hover-red"></alert>
-        <alert trigger="alertGreen" class="hover-green"></alert>
+        <alert model="alerts"></alert>
       </div>
     </div>
 
@@ -86,6 +89,7 @@
     <script src="src/geekstrap/directives/progress-button.js"></script>
     <script src="src/geekstrap/directives/navbar.js"></script>
     <script src="src/geekstrap/directives/navbar-tab.js"></script>
+    <script src="src/geekstrap/directives/modal.js"></script>
     <script src="src/geekstrap/directives/bullet-button.js"></script>
     <script src="src/geekstrap/directives/alert.js"></script>
     <script src="src/app/module.js"></script>
