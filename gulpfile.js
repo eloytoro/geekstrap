@@ -1,17 +1,17 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var inject = require("gulp-inject");
-var mainBowerFiles = require('main-bower-files');
-var rename = require('gulp-rename');
-var minifycss = require('gulp-minify-css');
+var gulp            = require('gulp');
+var sass            = require('gulp-sass');
+var inject          = require("gulp-inject");
+var mainBowerFiles  = require('main-bower-files');
+var rename          = require('gulp-rename');
+var minifycss       = require('gulp-minify-css');
 var angularFilesort = require('gulp-angular-filesort');
-var connect = require('gulp-connect');
-var watch = require('gulp-watch');
-var filter = require('gulp-filter');
-var plumber = require('gulp-plumber');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
-var map = require('map-stream');
+var connect         = require('gulp-connect');
+var watch           = require('gulp-watch');
+var filter          = require('gulp-filter');
+var plumber         = require('gulp-plumber');
+var jshint          = require('gulp-jshint');
+var stylish         = require('jshint-stylish');
+var map             = require('map-stream');
 
 var globs = {
   sass: ['sass/**/*.scss', 'src/**/*.scss'],
@@ -21,7 +21,7 @@ var globs = {
   bower: mainBowerFiles()
 };
 
-var logError = console.log.bind(console, '\007');
+var beep = console.log.bind(console, '\007');
 
 gulp.task('inject', function () {
   return gulp.src('./index.html')
@@ -34,7 +34,7 @@ gulp.task('inject', function () {
     });
 });
 
-gulp.task('connect', function() {
+gulp.task('connect', function () {
   connect.server({
     root: './',
     port: 8000,
@@ -42,59 +42,64 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('reload', ['inject'], function() {
+gulp.task('reload', function () {
   gulp.src('./index.html')
-  .pipe(connect.reload());
+    .pipe(connect.reload());
 });
 
-gulp.task('sass-parser', function() {
-  return watch(globs.sass, {name: 'Sass-Parser'}, function(files, cb) {
-    return gulp.start('compile-sass', cb);
+gulp.task('sass-parser', function () {
+  return watch(globs.sass, {name: 'Sass-Parser'}, function (files, cb) {
+    return gulp.start('compile-sass');
   })
 });
 
 //failsafe reporter defined within closure scope
-(function(reporter) {
-  gulp.task('js-parser', function() {
+(function (reporter) {
+  gulp.task('js-parser', function () {
     return watch(globs.js, {name: 'JS-Parser'})
     .pipe(plumber())
     .pipe(jshint())
     .pipe(reporter)
     .pipe(jshint.reporter(stylish));
   });
-})(map(function(file, cb) {
-  if (file.jshint.success) {
+})(map(function (file, cb) {
+  if (file.jshint.success)
     gulp.start('build');
-  } else {
-    logError();
-  }
+  else
+    beep();
   //cb continues the stream
   cb(null, file);
 }));
 
-gulp.task('build', function() {
+gulp.task('build', function () {
   gulp.src('./index.html')
-  .pipe(inject(gulp.src(globs.bower), {relative: true, name: 'bower'}))
-  .pipe(inject(gulp.src(globs.css), {relative: true}))
-  .pipe(inject(gulp.src(globs.js).pipe(angularFilesort()), {relative: true}))
-  .pipe(plumber())
-  .pipe(gulp.dest('./'))
+    .pipe(inject(gulp.src(globs.bower), {relative: true, name: 'bower'}))
+    .pipe(inject(gulp.src(globs.css), {relative: true}))
+    .pipe(inject(gulp.src(globs.js).pipe(angularFilesort()), {relative: true}))
+    .pipe(plumber())
+    .pipe(gulp.dest('./'))
+    .on('end', function () {
+      gulp.start('reload');
+    });
 });
 
-gulp.task('compile-sass', function() {
+gulp.task('compile-sass', function () {
   return gulp.src(globs.sass)
-  .pipe(sass({
-    onError: function(err) {
-      logError();
-      console.log(err);
-    }
-  }))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(minifycss())
-  .pipe(gulp.dest('css'));
+    .pipe(sass({
+      onError: function (err) {
+        console.log(err);
+        beep();
+      }
+    }))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(minifycss())
+    .pipe(gulp.dest('css'))
+    .on('end', function () {
+      gulp.start('reload');
+    });
 });
 
-gulp.task('compile', ['compile-sass'], function() {
+gulp.task('compile', ['compile-sass'], function () {
   return gulp.start('build');
 });
 
