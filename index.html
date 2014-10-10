@@ -55,6 +55,11 @@
         <progress-button model="progress" onload="onload()" class="hover-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
         <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
       </div>
+
+      <slider>
+        <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
+      </slider>
+
       <div class="row">
         <button class="hover-red" ng-click="error('Error')">red alert</button>
         <button class="hover-green" ng-click="alert('Success')">green alert</button>
@@ -85,6 +90,7 @@
 
     <!-- inject:js -->
     <script src="src/geekstrap/module.js"></script>
+    <script src="src/geekstrap/directives/slider.js"></script>
     <script src="src/geekstrap/directives/sidebar.js"></script>
     <script src="src/geekstrap/directives/progress-button.js"></script>
     <script src="src/geekstrap/directives/navbar.js"></script>
