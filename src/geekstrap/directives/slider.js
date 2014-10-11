@@ -9,24 +9,44 @@ angular.module('geekstrap')
     controller: ['$scope', '$window', '$element', function ($scope, $window, $element) {
 
       var _this = this;
+      var innerWidth = 0;
+      var box = $element[0].getElementsByClassName('fg-slider-box')[0];
+      var maxHeight = 0;
+      $scope.boxStyle = {};
+      var offset = 0;
 
       this.children = [];
+      this.shown = [];
+
+      var append = function (clonedElement, scope) {
+        box.appendChild(clonedElement[0]);
+        innerWidth += clonedElement[0].offsetWidth;
+        clonedElement.addClass('fg-slider-element');
+        if (!_this.shown.length) {
+          offset = innerWidth;
+          $scope.boxStyle.left = -innerWidth + 'px';
+        }
+        maxHeight = clonedElement[0].offsetHeight > maxHeight ? clonedElement[0].offsetHeight : maxHeight;
+        _this.shown.push(clonedElement);
+      };
 
       this.build = function() {
-        var sliderWidth = 0, i = 0, width = $element[0].offsetWidth;
-        this.shown = [];
-        while (sliderWidth < width) {
-          _this.children[i % _this.children.length]($scope, function(clonedElement, scope) {
-            console.log(clonedElement[0]);
-            $element[0].appendChild(clonedElement[0]);
-            sliderWidth += clonedElement[0].offsetWidth;
-          });
-          i++;
+        var outerWidth = $element[0].offsetWidth;
+        while (innerWidth - offset < outerWidth) {
+          _this.children[_this.shown.length % _this.children.length]($scope, append);
         }
+        while (innerWidth - offset - _this.shown[_this.shown.length - 1][0].offsetWidth > outerWidth) {
+          var element = _this.shown.pop()[0];
+          innerWidth -= element.offsetWidth;
+          box.removeChild(element);
+        }
+        $scope.boxStyle.height = maxHeight + 'px';
+        $scope.boxStyle.width = innerWidth + 'px';
       };
 
       angular.element($window).bind('resize', function() {
         _this.build();
+        $scope.$apply();
       });
 
     }],

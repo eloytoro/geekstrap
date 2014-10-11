@@ -291,3 +291,16 @@ button {
   display: inline-block;
   vertical-align: middle;
 }
+
+.fg-slider-wrapper {
+  overflow-x: hidden;
+  text-align: left;
+  position: relative;
+  height: 50px;
+  .fg-slider-box {
+    position: absolute;
+  }
+  .fg-slider-element {
+    float: left;
+  }
+}
