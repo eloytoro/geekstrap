@@ -3,6 +3,8 @@ angular.module('app')
 .controller('BodyController', ['$scope', '$interval', function ($scope, $interval) {
     $scope.bulletTooltip = "linkedin";
 
+    $scope.scroll = 0;
+
     $scope.sidebarItems = [{
       icon: 'anchor',
       title: '1'
@@ -49,7 +51,11 @@ angular.module('app')
       this.interval = $interval(function(tick) {
         $scope.progress += 10;
       }, 200);
-    }
+    };
+
+    $scope.doscroll = function(val) {
+      $scope.scroll += val;
+    };
 
     $scope.warningModalShow = function(flag) {
       $scope.warningModalVisible = flag;

@@ -56,10 +56,6 @@
         <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
       </div>
 
-      <slider>
-        <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
-      </slider>
-
       <div class="row">
         <button class="hover-red" ng-click="error('Error')">red alert</button>
         <button class="hover-green" ng-click="alert('Success')">green alert</button>
@@ -69,6 +65,21 @@
         <alert model="alerts"></alert>
       </div>
     </div>
+
+    <slider scroll="scroll">
+    <div class="hover-green" style="width: 100px">
+      {{bulletTooltip}}
+    </div>
+    <div class="hover-red" style="width: 100px">
+      {{bulletTooltip}}
+    </div>
+    <div class="hover-yellow" style="width: 100px">
+      {{bulletTooltip}}
+    </div>
+    </slider>
+    <button ng-click="doscroll(130)">left</button>
+    <button ng-click="doscroll(-130)">right</button>
+
 
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>

@@ -298,6 +298,7 @@ button {
   position: relative;
   height: 50px;
   .fg-slider-box {
+    @include transition(margin-left 1s);
     position: absolute;
   }
   .fg-slider-element {
