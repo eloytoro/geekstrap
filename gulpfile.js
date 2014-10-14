@@ -71,6 +71,12 @@ gulp.task('sass-parser', function () {
   cb(null, file);
 }));
 
+gulp.task('file-watcher', function () {
+  return watch(globs.html, {name: 'File-Watcher'}, function (files, cb) {
+    return gulp.start('reload');
+  });
+});
+
 gulp.task('build', function () {
   gulp.src('./index.html')
     .pipe(inject(gulp.src(globs.bower), {relative: true, name: 'bower'}))
