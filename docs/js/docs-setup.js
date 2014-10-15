@@ -5,12 +5,30 @@ NG_DOCS={
   "pages": [
     {
       "section": "api",
+      "id": "fg.geekstrap.directive:bullet-button",
+      "shortName": "bullet-button",
+      "type": "directive",
+      "moduleName": "fg.geekstrap",
+      "shortDescription": "A rendition of bullet buttons with some eye candy animations included",
+      "keywords": "animations api app bodycontroller bullet buttons candy class directive eye fg geekstrap hover-blue html image img included logo module ng-controller png rendition url"
+    },
+    {
+      "section": "api",
       "id": "fg.geekstrap.directive:circular-scroller",
       "shortName": "circular-scroller",
       "type": "directive",
       "moduleName": "fg.geekstrap",
       "shortDescription": "Repeats the transcluded elements across the directive&#39;s width, simulating an infinite circular scroller",
       "keywords": "angular api app bodycontroller bug caused circular class compile compiled demo-cscroller determines directive directives doscroll elements fg fixed geekstrap horizontal hover-blue html img infinite inside method module ng-click ng-controller ng-transclude png property removing repeats rules scope scroll scroller scrolling simulating src style transcluded width"
+    },
+    {
+      "section": "api",
+      "id": "fg.geekstrap.directive:modal",
+      "shortName": "modal",
+      "type": "directive",
+      "moduleName": "fg.geekstrap",
+      "shortDescription": "Just your average day modal",
+      "keywords": "api app average bodycontroller class day directive error fa fa-close fg geekstrap hover-red hover-yellow html modal module ng-click ng-controller occurred visible warningmodalshow warningmodalvisible"
     },
     {
       "section": "api",
