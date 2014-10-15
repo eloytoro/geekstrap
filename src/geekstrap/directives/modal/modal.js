@@ -1,11 +1,11 @@
-angular.module('geekstrap')
+angular.module('fg.geekstrap')
 
 .directive('modal', function() {
   return {
     restrict:'E',
     replace: true,
     transclude: true,
-    templateUrl: 'src/geekstrap/templates/modal.html',
+    templateUrl: 'geekstrap/directives/modal/modal.html',
     scope: {
       visible: '='
     }

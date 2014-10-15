@@ -1,10 +1,10 @@
-angular.module('geekstrap')
+angular.module('fg.geekstrap')
 
 .directive('alert', function() {
   return {
     restrict:'E',
     replace: true,
-    templateUrl: 'src/geekstrap/templates/alert.html',
+    templateUrl: 'geekstrap/directives/alert/alert.html',
     scope: {
       cluster: '=model'
     },

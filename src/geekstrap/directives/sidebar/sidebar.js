@@ -1,11 +1,11 @@
-angular.module('geekstrap')
+angular.module('fg.geekstrap')
 
 .directive('sidebar', function() {
   return {
     restrict:'E',
     replace: true,
     transclude: true,
-    templateUrl: 'src/geekstrap/templates/sidebar.html',
+    templateUrl: 'geekstrap/directives/sidebar/sidebar.html',
     scope: {
       icon: '@',
       default: '=',
@@ -20,14 +20,14 @@ angular.module('geekstrap')
           this.items[key].active = key == index;
           this.items[key].$digest();
         }
-      }
+      };
 
       this.addItem = function(item) {
         var index = this.items.length;
         this.items.push(item);
         item.active = index == $scope.default;
         return index;
-      }
+      };
     }],
     link: function (scope, element, attrs, controller) {
       element.children().eq(0).on('mouseenter', function() {
@@ -59,7 +59,7 @@ angular.module('geekstrap')
     scope: {
       icon: '@'
     },
-    templateUrl: 'src/geekstrap/templates/sidebar-item.html',
+    templateUrl: 'geekstrap/directives/sidebar/sidebar-item.html',
     require: '^sidebar',
     link: function (scope, element, attrs, controller) {
       scope.index = controller.addItem(scope);

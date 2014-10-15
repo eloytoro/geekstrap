@@ -1,1 +1,1 @@
-angular.module('app', ['geekstrap']);
+angular.module('app', ['fg.geekstrap']);

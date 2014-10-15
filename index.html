@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="dist/css/demo.min.css">
+    <link rel="stylesheet" href="dist/css/main.min.css">
     <!-- endinject -->
 
   </head>
@@ -66,7 +67,7 @@
       </div>
     </div>
 
-    <slider scroll="scroll">
+    <circular-scroller scroll="scroll">
     <div class="hover-green" style="width: 100px">
       {{bulletTooltip}}
     </div>
@@ -76,7 +77,7 @@
     <div class="hover-yellow" style="width: 100px">
       {{bulletTooltip}}
     </div>
-    </slider>
+    </circular-scroller>
     <button ng-click="doscroll(130)">left</button>
     <button ng-click="doscroll(-130)">right</button>
 
@@ -100,17 +101,7 @@
     <!-- endinject -->
 
     <!-- inject:js -->
-    <script src="src/geekstrap/module.js"></script>
-    <script src="src/geekstrap/directives/slider.js"></script>
-    <script src="src/geekstrap/directives/sidebar.js"></script>
-    <script src="src/geekstrap/directives/progress-button.js"></script>
-    <script src="src/geekstrap/directives/navbar.js"></script>
-    <script src="src/geekstrap/directives/navbar-tab.js"></script>
-    <script src="src/geekstrap/directives/modal.js"></script>
-    <script src="src/geekstrap/directives/bullet-button.js"></script>
-    <script src="src/geekstrap/directives/alert.js"></script>
-    <script src="src/app/module.js"></script>
-    <script src="src/app/controllers/body-controller.js"></script>
+    <script src="dist/js/geekstrap.min.js"></script>
     <!-- endinject -->
 
   </body>

@@ -1,6 +1,7 @@
 $fa-font-path: "/bower_components/font-awesome/fonts";
 @import "bower_components/font-awesome/scss/font-awesome";
 @import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "directives/circular-scroller/style";
 
 @mixin shadow($color) {
   @include box-shadow(0 5px 0 darken($color, 10%));
@@ -290,18 +291,4 @@ button {
 .vertical-center {
   display: inline-block;
   vertical-align: middle;
-}
-
-.fg-slider-wrapper {
-  overflow-x: hidden;
-  text-align: left;
-  position: relative;
-  height: 50px;
-  .fg-slider-box {
-    @include transition(margin-left 1s);
-    position: absolute;
-  }
-  .fg-slider-element {
-    float: left;
-  }
 }

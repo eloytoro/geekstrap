@@ -1,47 +1,65 @@
-angular.module('geekstrap')
+angular.module('fg.geekstrap')
 
-.directive('slider', ['$compile', function($compile) {
+/**
+ * @ngdoc directive
+ * @name fg.geekstrap.directive:circular-scroller
+ * @restrict E
+ * @param {number=} scroll value within the scope that determines the horizontal scrolling of the directive
+ *
+ * @description
+ * Repeats the transcluded elements across the directive's width, simulating an infinite circular scroller
+ * Rules:
+ *  - Elements inside the scroller MUST have a fixed width
+ *  - Directives inside the scroller can't use the ng-transclude directive, this is a known bug caused by angular's compile method not removing the property from already compiled directives
+ *
+ * @example
+<example module="app">
+  <file name="index.html">
+    <div ng-controller="BodyController" class="demo-cscroller">
+      <circular-scroller scroll="scroll">
+        <img src="img/logo_footer.png" style="width: 190px"></img>
+      </circular-scroller>
+      <button ng-click="doscroll(130)" class="hover-blue">left</button>
+      <button ng-click="doscroll(-130)" class="hover-blue">right</button>
+    </div>
+  </file>
+</example>
+ */
+.directive('circularScroller', ['$compile', function($compile) {
   return {
     restrict:'E',
     replace: true,
     transclude: true,
-    templateUrl: 'src/geekstrap/templates/slider.html',
+    templateUrl: 'geekstrap/directives/circular-scroller/circular-scroller.html',
     scope: {
-      scroll: '=?',
-      speed: '=?'
+      scroll: '=?'
     },
-    controller: ['$scope', '$window', '$element', '$timeout', '$interval',
-      function ($scope, $window, $element, $timeout, $interval) {
+    controller: ['$scope', '$window', '$element', '$timeout',
+      function ($scope, $window, $element, $timeout) {
 
         var _this = this;
         var innerWidth = 0;
-        var box = $element[0].getElementsByClassName('fg-slider-box')[0];
-        $scope.boxStyle = {};
-        $scope.wrapperStyle = {};
+        var box = $element[0].getElementsByClassName('fg-cscroller-box')[0];
         var offset = 0;
         var timeout;
         var overflowRight = 0;
         var overflowLeft = 0;
 
+        $scope.boxStyle = {};
+
         this.children = [];
         this.shown = [];
 
         if (!$scope.scroll) $scope.scroll = 0;
-        if ($scope.speed) {
-          $scope.scroll += $scope.speed;
-          $interval(function () {
-            $scope.scroll += $scope.speed;
-          }, 1000);
-        }
 
         function insert (element) {
           innerWidth += element[0].offsetWidth;
-          element.addClass('fg-slider-element');
+          element.addClass('fg-cscroller-element');
           $scope.boxStyle.width = innerWidth + 'px';
         }
 
-        (function(link) {
-          _this.append = function () {
+        _this.append = (function (link) {
+          return function () {
             _this.children[overflowRight]
             ($scope.$parent, link);
           };
@@ -52,8 +70,8 @@ angular.module('geekstrap')
           insert(clone);
         });
 
-        (function(link) {
-          _this.prepend = function () {
+        _this.prepend = (function (link) {
+          return function () {
             _this.children[_this.children.length - overflowLeft - 1]
             ($scope.$parent, link);
           };
@@ -68,7 +86,7 @@ angular.module('geekstrap')
 
         _this.pop = function () {
           var element = _this.shown.pop()[0];
-          overflowRight = overflowRight === 0 ? _this.children.length -1 : (overflowRight - 1) % _this.children.length;
+          overflowRight = (overflowRight - 1 + _this.children.length) % _this.children.length;
           innerWidth -= element.offsetWidth;
           box.removeChild(element);
         };
@@ -76,7 +94,7 @@ angular.module('geekstrap')
         _this.shift = function () {
           var element = _this.shown.shift()[0];
           innerWidth -= element.offsetWidth;
-          overflowLeft = overflowLeft === 0 ? _this.children.length - 1 : (overflowLeft - 1) % _this.children.length;
+          overflowLeft = (overflowLeft - 1 + this.children.length) % _this.children.length;
           offset -= element.offsetWidth;
           $scope.boxStyle.left = -offset + 'px';
           box.removeChild(element);
@@ -93,10 +111,6 @@ angular.module('geekstrap')
           if (timeout) { $timeout.cancel(timeout); }
           timeout = $timeout(_this.cleanup, 1000);
         };
-
-        $scope.$watch('scroll', function (val) {
-          _this.build();
-        });
 
         _this.cleanup = function () {
           var outerWidth = $element[0].offsetWidth;
@@ -123,8 +137,10 @@ angular.module('geekstrap')
               }
             });
           },
-          post: function(scope, element, attrs, controller) {
-            controller.build();
+          post: function (scope, element, attrs, controller, transclude) {
+            scope.$watch('scroll', function (val) {
+              controller.build();
+            });
           }
         };
       }
