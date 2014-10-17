@@ -54,6 +54,7 @@ angular.module('app')
     };
 
     $scope.doscroll = function(val) {
+      console.log($scope.cscroller);
       $scope.scroll += val;
     };
 

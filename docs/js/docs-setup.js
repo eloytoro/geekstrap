@@ -19,7 +19,16 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "fg.geekstrap",
       "shortDescription": "Repeats the transcluded elements across the directive&#39;s width, simulating an infinite circular scroller",
-      "keywords": "angular api app bodycontroller bug caused circular class compile compiled demo-cscroller determines directive directives doscroll elements fg fixed geekstrap horizontal hover-blue html img infinite inside method module ng-click ng-controller ng-transclude png property removing repeats rules scope scroll scroller scrolling simulating src style transcluded width"
+      "keywords": "angular api app bodycontroller bug caused circular class compile compiled cscroller demo-cscroller determines directive directives doscroll elements fg fg-alias fixed geekstrap horizontal hover-blue html img infinite inside method module ng-click ng-controller ng-transclude png property removing repeats rules scope scroll scroller scrolling simulating src style transcluded width"
+    },
+    {
+      "section": "api",
+      "id": "fg.geekstrap.directive:fg-alias",
+      "shortName": "fg-alias",
+      "type": "directive",
+      "moduleName": "fg.geekstrap",
+      "shortDescription": "fg-alias works as a bridge between any directive declared within its own element and the parent scope. It exports anything within the controller&#39;s exports property to the target scope by overwriting the specified property.",
+      "keywords": "$scope alert api array attrs bridge considerations controller declared defined directive element export exports fg fg-alias fgaliasctrl function geekstrap greet hello html instantiates link links logic mydirective ordeal overwriting overwritting parent property pushed redefined scope target usage works"
     },
     {
       "section": "api",
