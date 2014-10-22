@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="dist/css/demo.min.css">
     <link rel="stylesheet" href="dist/css/main.min.css">
     <!-- endinject -->
 
@@ -35,21 +34,15 @@
         <input type="text" ng-model="bulletTooltip"></input>
       </div>
       <div class="row">
-        <bullet logo="img/linkedin-logo.png" class="hover-yellow">
+        <button class="btn btn-bullet hover-white shadow-white fa fa-linkedin hover-red" ng-click="warningModalShow(true)">
           {{bulletTooltip}}
-        </bullet>
-        <bullet logo="img/plus-logo.png" class="hover-red" ng-click="warningModalShow(true)">
+        </button>
+        <button class="btn btn-bullet fa fa-linkedin hover-lightblue shadow-lightblue">
           {{bulletTooltip}}
-        </bullet>
-        <bullet logo="img/linkedin-logo.png" class="hover-green">
-          {{bulletTooltip}}
-        </bullet>
-        <bullet logo="img/linkedin-logo.png" class="hover-lightblue">
-          {{bulletTooltip}}
-        </bullet>
-        <bullet logo="img/linkedin-logo.png" class="hover-blue">
-          {{bulletTooltip}}
-        </bullet>
+        </button>
+        <button class="btn btn-bullet fa fa-cog hover-purple">
+            {{bulletTooltip}}
+        </button>
       </div>
       <div class="row">
         <progress-button model="progress" onload="onload()" class="hover-green" ng-click="doload()">click me</progress-button>
@@ -58,8 +51,8 @@
       </div>
 
       <div class="row">
-        <button class="hover-red" ng-click="error('Error')">red alert</button>
-        <button class="hover-green" ng-click="alert('Success')">green alert</button>
+        <button class="btn hover-purple shadow-purple" ng-click="error('Error')">red alert</button>
+        <button class="btn shadow-green" ng-click="alert('Success')">green alert</button>
       </div>
 
       <div class="alert-field">

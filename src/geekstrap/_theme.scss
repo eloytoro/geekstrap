@@ -3,18 +3,32 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "directives/circular-scroller/style";
 
-@mixin shadow($color) {
-  @include box-shadow(0 5px 0 darken($color, 10%));
-  margin-bottom: 5px;
+@mixin shadow($bgcolor, $color) {
+    @include box-shadow(0 5px 0 darken($bgcolor, 10%));
+    margin-bottom: 5px;
+    background-color: $bgcolor;
+    color: $color;
+    &.btn {
+        position: relative;
+        &:active {
+            top: 5px;
+            @include box-shadow(0 0 #000);
+        }
+    }
 }
 
-@mixin hoverable($color) {
-  background-color: $color;
-  &:hover:not(.active) {
-    background-color: darken($color, 5%);
-  }
-  @include shadow($color);
-  cursor: pointer;
+@mixin hoverable($bgcolor, $color) {
+    background-color: $bgcolor;
+    color: $color;
+    &:before {
+        color: $bgcolor !important;
+        background-color: lighten($color, 70%) !important;
+    }
+    &:hover:not(.active), &:focus {
+        background-color: darken($bgcolor, 5%);
+        color: $color;
+    }
+    cursor: pointer;
 }
 
 $yellow: #EFAE1D;
@@ -23,273 +37,255 @@ $lightblue: #238FB5;
 $blue: #3A69A3;
 $green: #35AD28;
 $orange: #ED6D26;
+$purple: #7926B0;
 $lightgray: darken(#FFF, 10%);
 $darkgray: darken(#FFF, 50%);
 
-button {
-  outline: none;
-  border: 0;
-  padding: 0;
-  border-radius: 5px;
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-  padding: 5px 10px;
+.hover-lightblue {
+    @include hoverable($lightblue, white);
 }
 
-.hover-lightblue {
-  color: white;
-  @include hoverable($lightblue);
+.hover-purple {
+    @include hoverable($purple, white);
 }
 
 .hover-green {
-  color: white;
-  @include hoverable($green);
+    @include hoverable($green, white);
 }
 
 .hover-blue {
-  color: white;
-  @include hoverable($blue);
+    @include hoverable($blue, white);
 }
 
 .hover-yellow {
-  color: white;
-  @include hoverable($yellow);
+    @include hoverable($yellow, white);
 }
 
 .hover-red {
-  color: white;
-  @include hoverable($red);
+    @include hoverable($red, white);
 }
 
 .hover-white {
-  @include hoverable(#FFF);
+    @include hoverable(#FFF, black);
 }
 
 .shadow-green {
-  color: white;
-  @include shadow($green);
+    @include shadow($green, white);
+}
+
+.shadow-purple {
+    @include shadow($purple, white);
 }
 
 .shadow-blue {
-  color: white;
-  @include shadow($blue);
+    @include shadow($blue, white);
+}
+
+.shadow-lightblue {
+    @include shadow($lightblue, white);
 }
 
 .shadow-yellow {
-  color: white;
-  @include shadow($yellow);
+    @include shadow($yellow, white);
 }
 
 .shadow-red {
-  color: white;
-  @include shadow($red);
+    @include shadow($red, white);
 }
 
 .shadow-white {
-  @include shadow(#FFF);
+    @include shadow(#FFF, black);
 }
 
-.bullet {
-  $bullet_height: 40px;
-  $bullet_radius: 20px;
-  $bullet_padding: 2px;
-  $transition_time: 0.2s;
+.btn-bullet {
+    border-radius: 50vh;
+    position: relative;
+    min-height: 40px;
+    padding-left: 42px;
+    overflow: hidden;
 
-  height: $bullet_height;
-  border-radius: $bullet_radius;
-  padding: 0 $bullet_radius;
-  position: relative;
-  border: 0;
-
-  &:hover {
-    img {
-      left: 50%;
+    &:hover {
+        &:before {
+            width: 100%;
+        }
     }
 
-    div {
-      opacity: 0;
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 20px;
+        background-color: white;
+        color: black;
+        border-radius: 50vh;
+        line-height: 38px;
+        width: 38px;
+        height: 38px;
+        @include transition(all 0.5s);
     }
-  }
-
-  img {
-    top: 2px;
-    left: 20px;
-    margin-left: -18px;
-    float: left;
-    position: absolute;
-    @include transition(all $transition_time);
-    float: right;
-    height: 36px;
-  }
-
-  div {
-    padding-left: 22px;
-    @include transition(all $transition_time);
-  }
 }
 
 .navbar {
 
-  .navbar-caret {
-    height: 5px;
-    width: 100px;
-    background-color: $lightblue;
-    position: absolute;
-    bottom: 0;
-    @include transition(all 0.5s);
-  }
-
-  .navbar-tab {
-    float: left;
-    min-height: 50px;
-  }
-
-  .navbar-tab + .navbar-tab {
-    >div {
-      min-height: 50px;
-      border-left: 1px solid black;
+    .navbar-caret {
+        height: 5px;
+        width: 100px;
+        background-color: $lightblue;
+        position: absolute;
+        bottom: 0;
+        @include transition(all 0.5s);
     }
-  }
+
+    .navbar-tab {
+        float: left;
+        min-height: 50px;
+    }
+
+    .navbar-tab + .navbar-tab {
+        >div {
+            min-height: 50px;
+            border-left: 1px solid black;
+        }
+    }
 }
 
 .progress-button {
-  height: 40px;
-  @include transition-transform(0.3s linear);
-  overflow: hidden;
-  position: relative;
-  .content {
-    @include transition(opacity 0.3s linear);
-  }
-  .progress-button-bar {
-    position: absolute;
     height: 40px;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    background-color: black;
-    @include transition(all 0.3s linear);
-  }
-  &.loading {
-    box-shadow: 0 0 0 0;
-    border-radius: 0;
+    @include transition-transform(0.3s linear);
+    overflow: hidden;
+    position: relative;
     .content {
-      opacity: 0;
+        @include transition(opacity 0.3s linear);
     }
     .progress-button-bar {
-      opacity: 0.7;
+        position: absolute;
+        height: 40px;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        background-color: black;
+        @include transition(all 0.3s linear);
     }
-    @include scaleY(0.3);
-  }
+    &.loading {
+        box-shadow: 0 0 0 0;
+        border-radius: 0;
+        .content {
+            opacity: 0;
+        }
+        .progress-button-bar {
+            opacity: 0.7;
+        }
+        @include scaleY(0.3);
+    }
 
 }
 
 .alert {
-  display: inline-block;
-  min-width: 200px;
-  text-align: left;
-  opacity: 0.8;
-
-  @include transition(all 0.3s linear);
-
-  &.ng-enter, &.ng-move, &.ng-leave.ng-leave-active {
-    @include rotateX(90deg);
-    opacity: 0;
-  }
-
-  &.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
-    @include rotateX(0deg);
+    display: inline-block;
+    min-width: 200px;
+    text-align: left;
     opacity: 0.8;
-  }
+
+    @include transition(all 0.3s linear);
+
+    &.ng-enter, &.ng-move, &.ng-leave.ng-leave-active {
+        @include rotateX(90deg);
+        opacity: 0;
+    }
+
+    &.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
+        @include rotateX(0deg);
+        opacity: 0.8;
+    }
 }
 
 .sidebar {
 
-  .sidebar-toggle {
-    line-height: 50px;
-    min-height: 50px;
-    width: 50px;
-    font-size: 20px;
-  }
-
-  position: relative;
-
-  .sidebar-content {
-    @include transition(left 0.4s ease);
-    left: -302px;
-    z-index: 9000;
-    height: 100vh;
-    top: 50px;
-    position: absolute;
-    background-color: $lightblue;
-    color: lighten($lightblue, 45%);
-
-    .sidebar-item {
-      width: 300px;
-      display: table;
-
-      >div {
-        float: left;
-        line-height: 40px;
-        background-color: inherit;
-      }
-
-      .sidebar-item-icon {
+    .sidebar-toggle {
+        line-height: 50px;
+        min-height: 50px;
         width: 50px;
         font-size: 20px;
-      }
-
-      .sidebar-item-label {
-        padding-left: 30px;
-        text-align: left;
-        width: 250px;
-      }
-
-      +.sidebar-item {
-        border-top: 1px solid $lightgray;
-      }
-
-      &:hover, &.active{
-        @include transition(background-color 0.4s, color 0.4s);
-        color: white;
-        background-color: darken($lightblue, 15%);
-      }
     }
-  }
+
+    position: relative;
+
+    .sidebar-content {
+        @include transition(left 0.4s ease);
+        left: -302px;
+        z-index: 9000;
+        height: 100vh;
+        top: 50px;
+        position: absolute;
+        background-color: $lightblue;
+        color: lighten($lightblue, 45%);
+
+        .sidebar-item {
+            width: 300px;
+            display: table;
+
+            >div {
+                float: left;
+                line-height: 40px;
+                background-color: inherit;
+            }
+
+            .sidebar-item-icon {
+                width: 50px;
+                font-size: 20px;
+            }
+
+            .sidebar-item-label {
+                padding-left: 30px;
+                text-align: left;
+                width: 250px;
+            }
+
+            +.sidebar-item {
+                border-top: 1px solid $lightgray;
+            }
+
+            &:hover, &.active{
+                @include transition(background-color 0.4s, color 0.4s);
+                color: white;
+                background-color: darken($lightblue, 15%);
+            }
+        }
+    }
 }
 
 .fg-modal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0; left: 0;
-  background-color: $lightblue;
-  color: white;
-  opacity: 0;
-  @include transition(opacity 0.5s);
-  z-index: 9200;
-  opacity: 0;
-  pointer-events: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    background-color: $lightblue;
+    color: white;
+    opacity: 0;
+    @include transition(opacity 0.5s);
+    z-index: 9200;
+    opacity: 0;
+    pointer-events: none;
 
-  &.visible {
-    pointer-events: all;
-    opacity: 0.9;
-  }
+    &.visible {
+        pointer-events: all;
+        opacity: 0.9;
+    }
 
 }
 
 .vertical-block {
-  text-align: center;
-  &:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -0.25em;
-  }
+    text-align: center;
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -0.25em;
+    }
 }
 
 .vertical-center {
-  display: inline-block;
-  vertical-align: middle;
+    display: inline-block;
+    vertical-align: middle;
 }
