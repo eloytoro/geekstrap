@@ -10,7 +10,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "fg.geekstrap",
       "shortDescription": "A rendition of bullet buttons with some eye candy animations included",
-      "keywords": "animations api app bodycontroller bullet buttons candy class directive eye fg geekstrap hover-blue html image img included logo module ng-controller png rendition url"
+      "keywords": "animations api app bodycontroller bullet buttons candy class directive eye fg geekstrap hover-blue hover-green hover-red hover-yellow html image img included logo module ng-controller png rendition url"
     },
     {
       "section": "api",
@@ -28,7 +28,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "fg.geekstrap",
       "shortDescription": "fg-alias works as a bridge between any directive declared within its own element and the parent scope. It exports anything within the controller&#39;s exports property to the target scope by overwriting the specified property.",
-      "keywords": "$scope alert api array attrs bridge considerations controller declared defined directive element export exports fg fg-alias fgaliasctrl function geekstrap greet hello html instantiates link links logic mydirective ordeal overwriting overwritting parent property pushed redefined scope target usage works"
+      "keywords": "$scope alert api array attrs bridge considerations controller declared defined directive element example export exports fg fg-alias fgaliasctrl function geekstrap greet hello html instantiates link links logic mydirective ordeal overwriting overwritting parent property pushed redefined scope target works"
     },
     {
       "section": "api",

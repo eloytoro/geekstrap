@@ -4,14 +4,14 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import "directives/circular-scroller/style";
 
 @mixin shadow($bgcolor, $color) {
-    @include box-shadow(0 5px 0 darken($bgcolor, 10%));
-    margin-bottom: 5px;
+    @include box-shadow(0 4px 0 darken($bgcolor, 10%));
+    margin-bottom: 4px;
     background-color: $bgcolor;
     color: $color;
     &.btn {
         position: relative;
         &:active {
-            top: 5px;
+            top: 4px;
             @include box-shadow(0 0 #000);
         }
     }
@@ -20,7 +20,7 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @mixin hoverable($bgcolor, $color) {
     background-color: $bgcolor;
     color: $color;
-    &:before {
+    &.btn-bullet.btn-icon .fa:before {
         color: $bgcolor !important;
         background-color: lighten($color, 70%) !important;
     }
@@ -69,6 +69,10 @@ $darkgray: darken(#FFF, 50%);
     @include hoverable(#FFF, black);
 }
 
+.hover-orange {
+    @include hoverable($orange, white);
+}
+
 .shadow-green {
     @include shadow($green, white);
 }
@@ -97,31 +101,43 @@ $darkgray: darken(#FFF, 50%);
     @include shadow(#FFF, black);
 }
 
+.shadow-orange {
+    @include shadow($orange, white);
+}
+
 .btn-bullet {
     border-radius: 50vh;
-    position: relative;
-    min-height: 40px;
-    padding-left: 42px;
     overflow: hidden;
 
     &:hover {
-        &:before {
+        .fa:before {
             width: 100%;
         }
     }
 
-    &:before {
+    &.btn-icon .fa:before {
+        background-color: white;
+        color: black;
+        border-radius: 50vh;
+        @include transition(all 0.5s);
+    }
+}
+
+.btn-icon {
+    position: relative;
+    height: 40px;
+    padding-left: 42px;
+    overflow: hidden;
+    
+    .fa:before {
         position: absolute;
         top: 0;
         left: 0;
         font-size: 20px;
-        background-color: white;
-        color: black;
-        border-radius: 50vh;
         line-height: 38px;
         width: 38px;
         height: 38px;
-        @include transition(all 0.5s);
+        text-align: center;
     }
 }
 

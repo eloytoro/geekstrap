@@ -34,25 +34,28 @@
         <input type="text" ng-model="bulletTooltip"></input>
       </div>
       <div class="row">
-        <button class="btn btn-bullet hover-white shadow-white fa fa-linkedin hover-red" ng-click="warningModalShow(true)">
-          {{bulletTooltip}}
+        <button class="btn btn-bullet hover-white btn-icon shadow-white hover-red" ng-click="warningModalShow(true)">
+            <i class="fa fa-linkedin"></i>{{bulletTooltip}}
         </button>
-        <button class="btn btn-bullet fa fa-linkedin hover-lightblue shadow-lightblue">
-          {{bulletTooltip}}
+        <button class="btn btn-bullet btn-icon hover-orange shadow-orange">
+          <i class="fa fa-flag"></i>{{bulletTooltip}}
         </button>
-        <button class="btn btn-bullet fa fa-cog hover-purple">
-            {{bulletTooltip}}
+        <button class="btn btn-bullet btn-icon hover-yellow">
+            <i class="fa fa-cog"></i>{{bulletTooltip}}
         </button>
       </div>
       <div class="row">
-        <progress-button model="progress" onload="onload()" class="hover-green" ng-click="doload()">click me</progress-button>
-        <progress-button model="progress" onload="onload()" class="hover-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
-        <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">progress button demo</progress-button>
+        <progress-button model="progress" onload="onload()" class="btn hover-green shadow-green" ng-click="doload()">click me</progress-button>
+        <progress-button model="progress" onload="onload()" class="btn hover-red shadow-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
+        <progress-button model="progress" onload="onload()" class="btn hover-blue shadow-blue" ng-click="doload()">progress button demo</progress-button>
       </div>
 
       <div class="row">
         <button class="btn hover-purple shadow-purple" ng-click="error('Error')">red alert</button>
-        <button class="btn shadow-green" ng-click="alert('Success')">green alert</button>
+        <button class="btn shadow-green btn-icon" ng-click="alert('Success')">
+            <i class="fa fa-magic"></i>
+            green alert
+        </button>
       </div>
 
       <div class="alert-field">
@@ -60,19 +63,16 @@
       </div>
     </div>
 
-    <circular-scroller scroll="scroll">
-    <div class="hover-green" style="width: 100px">
-      {{bulletTooltip}}
-    </div>
-    <div class="hover-red" style="width: 100px">
-      {{bulletTooltip}}
-    </div>
-    <div class="hover-yellow" style="width: 100px">
-      {{bulletTooltip}}
-    </div>
+    <circular-scroller scroll="scroll" style="height: 50px">
+    <button class="btn btn-bullet hover-white btn-icon shadow-white hover-red" ng-click="warningModalShow(true)">
+        <i class="fa fa-linkedin"></i>{{bulletTooltip}}
+    </button>
+    <button class="btn btn-bullet btn-icon hover-orange shadow-orange">
+        <i class="fa fa-flag"></i>{{bulletTooltip}}
+    </button>
     </circular-scroller>
-    <button ng-click="doscroll(130)">left</button>
-    <button ng-click="doscroll(-130)">right</button>
+    <button ng-click="doscroll(130)" class="btn btn-icon hover-orange"><i class="fa fa-arrow-left"></i>left</button>
+    <button ng-click="doscroll(-130)" class="btn btn-icon hover-orange"><i class="fa fa-arrow-right"></i>right</button>
 
 
     <!-- bower:js -->
