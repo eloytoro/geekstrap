@@ -24,13 +24,13 @@ angular.module('fg.geekstrap')
 </example>
  */
 .directive('modal', function() {
-  return {
-    restrict:'E',
-    replace: true,
-    transclude: true,
-    templateUrl: 'geekstrap/directives/modal/modal.html',
-    scope: {
-      visible: '='
-    }
-  };
+    return {
+        restrict:'E',
+        replace: true,
+        transclude: true,
+        templateUrl: 'geekstrap/directives/modal/modal.html',
+        scope: {
+            visible: '='
+        }
+    };
 });

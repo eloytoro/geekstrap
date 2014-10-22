@@ -305,3 +305,7 @@ $darkgray: darken(#FFF, 50%);
     display: inline-block;
     vertical-align: middle;
 }
+
+.btn {
+    outline: none !important;
+}
