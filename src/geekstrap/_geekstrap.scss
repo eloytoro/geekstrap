@@ -3,33 +3,59 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "directives/circular-scroller/style";
 
-@mixin shadow($bgcolor, $color) {
-    @include box-shadow(0 8px 0 darken($bgcolor, 30%));
-    margin-bottom: 4px;
+@mixin color($bgcolor, $color, $hover-bgcolor, $hover-color) {
     background-color: $bgcolor;
     color: $color;
-    &.btn {
-        outline: none !important;
-        position: relative;
-        &:active {
-            top: 4px;
-            @include box-shadow(0 0 #000);
+
+    &.raise {
+        $raise-offset: 4px;
+        $transition-time: 0.1s;
+
+        @include box-shadow(0 $raise-offset 0 darken($bgcolor, 18%));
+        margin-bottom: $raise-offset;
+        &.btn {
+            outline: none !important;
+            position: relative;
+            top: 0;
+            @include transition(top 0.1s, box-shadow 0.1s);
+            &:active {
+                top: $raise-offset;
+                @include box-shadow(0 0 darken($bgcolor, 18%));
+            }
         }
     }
-}
 
-@mixin hoverable($bgcolor, $color) {
-    background-color: $bgcolor;
-    color: $color;
-    &.btn-bullet.btn-icon .fa:before {
-        color: $bgcolor !important;
-        background-color: lighten($color, 70%) !important;
-    }
-    &:hover:not(.active), &:focus {
-        background-color: darken($bgcolor, 5%);
+    &:hover, &:focus {
+        background-color: $bgcolor;
         color: $color;
     }
-    cursor: pointer;
+
+    &.hover {
+        &.btn-bullet.btn-icon {
+            > .fa:before {
+                @include transition(width 0.5s);
+            }
+            &:hover {
+                > .fa:before {
+                    width: 100%;
+                }
+            }
+
+        }
+
+        &:hover, &:focus {
+            background-color: $hover-bgcolor;
+            color: $hover-color;
+        }
+
+    }
+
+    &.btn-bullet.btn-icon {
+        > .fa:before {
+            color: $bgcolor !important;
+            background-color: lighten($color, 70%) !important;
+        }
+    }
 }
 
 $yellow: #EFAE1D;
@@ -42,86 +68,44 @@ $purple: #7926B0;
 $lightgray: darken(#FFF, 10%);
 $darkgray: darken(#FFF, 50%);
 
-.hover-lightblue {
-    @include hoverable($lightblue, white);
+.color-lightblue {
+    @include color($lightblue, white, darken($lightblue, 5%), white);
 }
 
-.hover-purple {
-    @include hoverable($purple, white);
+.color-black {
+    @include color(black, white, lighten(black, 10%), white);
 }
 
-.hover-green {
-    @include hoverable($green, white);
+.color-purple {
+    @include color($purple, white, darken($purple, 5%), white);
 }
 
-.hover-blue {
-    @include hoverable($blue, white);
+.color-green {
+    @include color($green, white, darken($green, 5%), white);
 }
 
-.hover-yellow {
-    @include hoverable($yellow, white);
+.color-blue {
+    @include color($blue, white, darken($blue, 5%), white);
 }
 
-.hover-red {
-    @include hoverable($red, white);
+.color-yellow {
+    @include color($yellow, white, darken($yellow, 5%), white);
 }
 
-.hover-white {
-    @include hoverable(#FFF, black);
+.color-red {
+    @include color($red, white, darken($red, 5%), white);
 }
 
-.hover-orange {
-    @include hoverable($orange, white);
+.color-white {
+    @include color(#FFF, black, darken(white, 50%), black);
 }
 
-.shadow-green {
-    @include shadow($green, white);
+.color-orange {
+    @include color($orange, white, darken($orange, 5%), white);
 }
 
-.shadow-purple {
-    @include shadow($purple, white);
-}
-
-.shadow-blue {
-    @include shadow($blue, white);
-}
-
-.shadow-lightblue {
-    @include shadow($lightblue, white);
-}
-
-.shadow-yellow {
-    @include shadow($yellow, white);
-}
-
-.shadow-red {
-    @include shadow($red, white);
-}
-
-.shadow-white {
-    @include shadow(#FFF, black);
-}
-
-.shadow-orange {
-    @include shadow($orange, white);
-}
-
-.btn-bullet {
-    border-radius: 50vh;
-    overflow: hidden;
-
-    &:hover {
-        .fa:before {
-            width: 100%;
-        }
-    }
-
-    &.btn-icon .fa:before {
-        background-color: white;
-        color: black;
-        border-radius: 50vh;
-        @include transition(all 0.5s);
-    }
+.color-lightgray {
+    @include color($lightgray, black, $darkgray, black);
 }
 
 .btn-icon {
@@ -129,7 +113,7 @@ $darkgray: darken(#FFF, 50%);
     height: 40px;
     padding-left: 42px;
     overflow: hidden;
-    
+
     .fa:before {
         position: absolute;
         top: 0;
@@ -139,6 +123,14 @@ $darkgray: darken(#FFF, 50%);
         width: 38px;
         height: 38px;
         text-align: center;
+    }
+}
+
+.btn-bullet {
+    border-radius: 50vh;
+
+    &.btn-icon > .fa:before {
+        border-radius: 50vh;
     }
 }
 

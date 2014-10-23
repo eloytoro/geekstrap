@@ -96,9 +96,10 @@ gulp.task('compile-demo', function () {
 
 gulp.task('ngdocs', ['compile-js', 'compile-demo'], function () {
     var options = {
-        scripts: ['../dist/js/geekstrap.min.js', '../demo/js/demo-controller.js'],
+        scripts: ['dist/js/geekstrap.min.js', 'demo/js/demo-controller.js'],
         html5Mode: false,
-        styles: ['../demo/css/demo.min.css']
+        styles: ['demo/css/demo.min.css'],
+        title: 'Geekstrap'
     };
     return gulp.src(globs.js)
     .pipe(ngdocs.process(options))

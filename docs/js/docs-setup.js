@@ -1,6 +1,6 @@
 NG_DOCS={
   "sections": {
-    "api": "API Documentation"
+    "api": "Geekstrap"
   },
   "pages": [
     {
@@ -10,7 +10,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "fg.geekstrap",
       "shortDescription": "Repeats the transcluded elements across the directive&#39;s width, simulating an infinite circular scroller",
-      "keywords": "angular api app bodycontroller btn btn-bullet btn-icon bug caused circular class compile compiled cscroller demo-cscroller determines directive directives doscroll elements fa fa-arrow-left fa-arrow-right fg fg-alias fixed geekstrap horizontal hover-red hover-yellow html infinite inside left method module ng-click ng-controller ng-transclude png property removing repeats rules scope scroll scroller scrolling shadow-red shadow-yellow simulating src style transcluded width"
+      "keywords": "angular api app bodycontroller btn btn-bullet btn-icon bug caused circular class color-lightblue color-purple compile compiled cscroller demo-cscroller determines directive directives doscroll elements fa fa-arrow-left fa-arrow-right fg fg-alias fixed geekstrap horizontal hover html infinite inside left method module ng-click ng-controller ng-transclude png property raise removing repeats rules scope scroll scroller scrolling simulating src style transcluded width"
     },
     {
       "section": "api",
@@ -48,7 +48,7 @@ NG_DOCS={
     "styles": [
       "css/demo.min.css"
     ],
-    "title": "API Documentation",
+    "title": "Geekstrap",
     "html5Mode": false,
     "editExample": true,
     "navTemplate": false,
