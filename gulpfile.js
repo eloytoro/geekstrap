@@ -81,7 +81,7 @@ gulp.task('compile-scss', function () {
     .pipe(gulp.dest('dist/scss'));
 });
 
-gulp.task('compile-demo', function () {
+gulp.task('compile-demo-scss', function () {
     return gulp.src(globs.demo.style)
     .pipe(sass({
         onError: function (err) {
@@ -93,6 +93,15 @@ gulp.task('compile-demo', function () {
     .pipe(minifycss())
     .pipe(gulp.dest('demo/css'));
 });
+
+gulp.task('compile-demo-js', function () {
+    return gulp.src(globs.bower.js)
+    .pipe(concat('bower.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('demo/js'))
+});
+
+gulp.task('compile-demo', ['compile-demo-scss', 'compile-demo-js']);
 
 gulp.task('ngdocs', ['compile-js', 'compile-demo'], function () {
     var options = {
