@@ -4,11 +4,12 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
 @import "directives/circular-scroller/style";
 
 @mixin shadow($bgcolor, $color) {
-    @include box-shadow(0 4px 0 darken($bgcolor, 10%));
+    @include box-shadow(0 8px 0 darken($bgcolor, 30%));
     margin-bottom: 4px;
     background-color: $bgcolor;
     color: $color;
     &.btn {
+        outline: none !important;
         position: relative;
         &:active {
             top: 4px;
@@ -141,7 +142,7 @@ $darkgray: darken(#FFF, 50%);
     }
 }
 
-.navbar {
+.fg-navbar {
 
     .navbar-caret {
         height: 5px;
@@ -304,8 +305,4 @@ $darkgray: darken(#FFF, 50%);
 .vertical-center {
     display: inline-block;
     vertical-align: middle;
-}
-
-.btn {
-    outline: none !important;
 }

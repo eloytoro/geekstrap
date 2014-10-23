@@ -1,10 +1,13 @@
 {
-  "name": "angular",
-  "version": "0.0.0",
+  "name": "geekstrap",
+  "version": "0.0.1",
   "dependencies": {
     "angular": "~1.2.24",
     "angular-animate": "~1.2.25",
     "font-awesome": "~4.2.0",
-    "bootstrap-sass-official": "3.2.0+2"
-  }
+    "bootstrap-sass-official": "3.2.0+2",
+    "jquery": "~2.1.1"
+  },
+  "ignore": [ "index.html", "demo", "docs", "src" ],
+  "main": [ "dist/js/geekstrap.min.js", "dist/scss/_geekstrap.scss" ]
 }

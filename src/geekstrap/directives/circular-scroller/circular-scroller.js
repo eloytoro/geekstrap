@@ -13,19 +13,25 @@ angular.module('fg.geekstrap')
  *  - Directives inside the scroller can't use the ng-transclude directive, this is a known bug caused by angular's compile method not removing the property from already compiled directives
  *
  * @example
-<example module="app">
-  <file name="index.html">
-    <div ng-controller="BodyController" class="demo-cscroller">
-      <circular-scroller scroll="scroll" fg-alias="cscroller">
-        <img src="img/logo_footer.png" style="width: 190px"></img>
-      </circular-scroller>
-      <button ng-click="doscroll(130)" class="hover-blue">left</button>
-      <button ng-click="doscroll(-130)" class="hover-blue">right</button>
-    </div>
-  </file>
-</example>
+ <example module="app">
+     <file name="index.html">
+         <div ng-controller="BodyController" class="demo-cscroller">
+             <circular-scroller scroll="scroll" fg-alias="cscroller">
+                 <img src="../demo/img/logo_footer.png" style="width: 190px"></img>
+             </circular-scroller>
+             <button ng-click="doscroll(-130)" class="btn shadow-red btn-icon btn-bullet hover-red">
+                <i class="fa fa-arrow-left"></i>
+                 left
+             </button>
+             <button ng-click="doscroll(130)" class="btn btn-bullet shadow-yellow btn-icon hover-yellow">
+                 <i class="fa fa-arrow-right"></i>
+                 right
+             </button>
+         </div>
+     </file>
+ </example>
  */
-.directive('circularScroller', function () {
+.directive('circularScroller', ['$compile', function ($compile) {
     return {
         restrict:'E',
         replace: true,
@@ -47,6 +53,7 @@ angular.module('fg.geekstrap')
 
                 this.shown = [];
                 this.children = [];
+                this.exports = {};
 
                 $scope.boxStyle = {};
 
@@ -176,4 +183,4 @@ angular.module('fg.geekstrap')
             if (scope.alias) scope.alias = controller.exports;
         }
     };
-});
+}]);

@@ -1,4 +1,4 @@
-angular.module('app')
+angular.module('app', ['fg.geekstrap'])
 
 .controller('BodyController', ['$scope', '$interval', function ($scope, $interval) {
     $scope.bulletTooltip = "linkedin";
