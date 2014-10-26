@@ -14,13 +14,13 @@ angular.module('fg.geekstrap')
 <example module="app">
   <file name="index.html">
     <div ng-controller="BodyController" class="demo-pbutton">
-      <progress-button model="progress" onload="onload()" class="hover-green" ng-click="doload()">
+      <progress-button model="progress" onload="onload()" class="color-green btn" ng-click="doload()">
         click me
       </progress-button>
-      <progress-button model="progress" onload="onload()" class="hover-blue" ng-click="doload()">
+      <progress-button model="progress" onload="onload()" class="color-blue btn" ng-click="doload()">
       click me
       </progress-button>
-      <progress-button model="progress" onload="onload()" class="hover-red" ng-click="doload()">
+      <progress-button model="progress" onload="onload()" class="color-red btn" ng-click="doload()">
       click me
       </progress-button>
     </div>

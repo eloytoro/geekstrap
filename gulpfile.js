@@ -17,6 +17,7 @@ var uglify          = require('gulp-uglify');
 var concat          = require('gulp-concat');
 var templateCache   = require('gulp-angular-templatecache');
 var merge           = require('merge-stream');
+var gutil           = require('gulp-util');
 
 var globs = {
     demo: {
@@ -38,8 +39,6 @@ var globs = {
     }
 };
 
-var beep = console.log.bind(console, '\007');
-
 gulp.task('connect', function () {
     connect.server({
         root: './',
@@ -52,53 +51,48 @@ gulp.task('connect', function () {
 gulp.task('js-parser', (function (reporter) {
     return function () {
         return watch(globs.js, {name: 'JS-Parser'})
-        .pipe(plumber())
-        .pipe(jshint())
-        .pipe(reporter)
-        .pipe(jshint.reporter(stylish));
+            .pipe(plumber())
+            .pipe(jshint())
+            .pipe(reporter)
+            .pipe(jshint.reporter(stylish));
     };
 })(map(function (file, cb) {
     if (file.jshint.success)
         gulp.start('compile-js');
     else
-        beep();
+        gutil.beep();
     //cb continues the stream
     cb(null, file);
 })));
 
 gulp.task('compile-js', function () {
     var templates = gulp.src(globs.template)
-    .pipe(templateCache('templates.js', { module: 'fg.geekstrap.templates', standalone: true }));
+        .pipe(templateCache('templates.js', { module: 'fg.geekstrap.templates', standalone: true }));
     var src = merge(templates, gulp.src(globs.js).pipe(angularFilesort()))
-    .pipe(concat('geekstrap.min.js'));
+        .pipe(concat('geekstrap.min.js'));
     return merge(templates, src)
-    .pipe(concat('geekstrap.min.js'))
-    .pipe(gulp.dest('dist/js'));
-});
-
-gulp.task('compile-scss', function () {
-    return gulp.src('src/geekstrap/_geekstrap.scss')
-    .pipe(gulp.dest('dist/scss'));
+        .pipe(concat('geekstrap.min.js'))
+        .pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('compile-demo-scss', function () {
     return gulp.src(globs.demo.style)
-    .pipe(sass({
-        onError: function (err) {
-            console.log(err);
-            beep();
-        }
-    }))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(minifycss())
-    .pipe(gulp.dest('demo/css'));
+        .pipe(sass({
+            onError: function (err) {
+                gutil.log(err);
+                gutil.beep();
+            }
+        }))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(minifycss())
+        .pipe(gulp.dest('demo/css'));
 });
 
 gulp.task('compile-demo-js', function () {
     return gulp.src(globs.bower.js)
-    .pipe(concat('bower.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('demo/js'))
+        .pipe(concat('bower.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('demo/js'))
 });
 
 gulp.task('compile-demo', ['compile-demo-scss', 'compile-demo-js']);
@@ -111,11 +105,11 @@ gulp.task('ngdocs', ['compile-js', 'compile-demo'], function () {
         title: 'Geekstrap'
     };
     return gulp.src(globs.js)
-    .pipe(ngdocs.process(options))
-    .pipe(gulp.dest('./docs'));
+        .pipe(ngdocs.process(options))
+        .pipe(gulp.dest('./docs'));
 });
 
-gulp.task('compile', ['compile-js', 'compile-scss', 'compile-demo']);
+gulp.task('compile', ['compile-js', 'compile-demo']);
 
 gulp.task('watch', ['compile', 'js-parser']);
 

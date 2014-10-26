@@ -7,11 +7,12 @@ angular.module('fg.geekstrap')
         transclude: true,
         templateUrl: 'geekstrap/directives/navbar/navbar.html',
         scope: {
-            default: "@"
+            default: "@",
+            alias: "=?"
         },
         controller: ['$scope', '$window', function ($scope, $window) {
             this.tabs = [];
-            var vm = this;
+            var _this = this;
 
             $scope.caretOffset = {};
             $scope.activeTab = 0;
@@ -28,11 +29,11 @@ angular.module('fg.geekstrap')
             this.setActive = function(id) {
                 for (var key in this.tabs) {
                     this.tabs[key].active = id == key;
-                    this.tabs[key].$digest();
+                    this.tabs[key].$apply();
                 }
                 $scope.activeTab = id;
                 this.moveCaret(id);
-                $scope.$digest();
+                $scope.$apply();
             };
 
             this.addTab = function(tab) {
@@ -42,12 +43,14 @@ angular.module('fg.geekstrap')
             };
 
             angular.element($window).bind('resize', function() {
-                for (var key in vm.tabs) {
-                    vm.tabs[key].refresh();
+                for (var key in _this.tabs) {
+                    _this.tabs[key].refresh();
                 }
-                vm.moveCaret($scope.activeTab);
-                $scope.$digest();
+                _this.moveCaret($scope.activeTab);
+                $scope.$apply();
             });
+            
+            this.exports = { setActive: this.setActive };
 
         }],
         link: function (scope, element, attrs, controller) {
@@ -59,6 +62,8 @@ angular.module('fg.geekstrap')
                     break;
                 }
             }
+
+            if (scope.alias) scope.alias = controller.exports;
         }
     };
 })
@@ -72,18 +77,18 @@ angular.module('fg.geekstrap')
         templateUrl: 'geekstrap/directives/navbar/navbar-tab.html',
         scope: {
             link: '@',
-            activable: '@'
+            activable: '=?'
         },
         link: function (scope, element, attrs, controller) {
-            scope.width = $(element).width();
+            scope.width = element[0].offsetWidth;
             scope.id = controller.addTab(scope);
-            if (scope.activable != 'false') {
+            if (scope.activable) {
                 element.on('click', function() {
                     controller.setActive(scope.id);
                 });
             }
             scope.refresh = function() {
-                scope.width = $(element).width();
+                scope.width = element[0].offsetWidth;
             };
         }
     };

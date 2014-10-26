@@ -28,7 +28,7 @@ NG_DOCS={
       "type": "directive",
       "moduleName": "fg.geekstrap",
       "shortDescription": "A button that morphs into a loading bar whenever it&#39;s model value changes",
-      "keywords": "api app bar bodycontroller button callback changes class click completion demo-pbutton determines directive doload fg geekstrap hover-blue hover-green hover-red html loading model module morphs ng-click ng-controller onload progress scope"
+      "keywords": "api app bar bodycontroller btn button callback changes class click color-blue color-green color-red completion demo-pbutton determines directive doload fg geekstrap html loading model module morphs ng-click ng-controller onload progress scope"
     }
   ],
   "apis": {

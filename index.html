@@ -11,20 +11,20 @@
         <modal visible="warningModalVisible">
         <p><h2>Warning!</h2></p>
         <p>An error occurred</p>
-        <button class="hover-yellow fa fa-close" ng-click="warningModalShow(false)">Close</button>
+        <button class="color-yellow fa fa-close" ng-click="warningModalShow(false)">Close</button>
         </modal>
 
         <navbar default="tab2" class="navbar-fixed-top">
-        <navbar-tab link="sidebar" activable="false" class="hover-white" ng-mouseenter="setPeek('-250px')">
+        <navbar-tab link="sidebar" activable="false" class="color-white" ng-mouseenter="setPeek('-250px')">
         <sidebar icon="fa fa-bars" persist="true">
         <sidebar-item icon="fa fa-{{item.icon}}" ng-repeat="item in sidebarItems" ng-click="item.onclick()">{{item.title}}</sidebar-item>
         </sidebar>
         </navbar-tab>
-        <navbar-tab style="width: 20%" link="tab2" class="hover-white tab">tab</navbar-tab>
-        <navbar-tab style="width: 20%" link="tab3" class="hover-white tab">tab</navbar-tab>
-        <navbar-tab style="width: 20%" link="tab4" class="hover-white tab">tab</navbar-tab>
-        <navbar-tab style="width: 20%" link="tab5" class="hover-white tab">tab</navbar-tab>
-        <navbar-tab style="width: 10%" link="tab5" class="hover-white tab">tab</navbar-tab>
+        <navbar-tab style="width: 20%" link="tab2" class="color-white tab">tab</navbar-tab>
+        <navbar-tab style="width: 20%" link="tab3" class="color-white tab">tab</navbar-tab>
+        <navbar-tab style="width: 20%" link="tab4" class="color-white tab">tab</navbar-tab>
+        <navbar-tab style="width: 20%" link="tab5" class="color-white tab">tab</navbar-tab>
+        <navbar-tab style="width: 10%" link="tab5" class="color-white tab">tab</navbar-tab>
         </navbar>
 
         <div class="container">
@@ -32,25 +32,25 @@
                 <input type="text" ng-model="bulletTooltip"></input>
             </div>
             <div class="row">
-                <button class="btn btn-icon-fill hover-white btn-icon shadow-white hover-red" ng-click="warningModalShow(true)">
+                <button class="btn btn-icon-fill color-white btn-icon color-red" ng-click="warningModalShow(true)">
                     <i class="fa fa-linkedin"></i>{{bulletTooltip}}
                 </button>
-                <button class="btn btn-bullet btn-icon hover-orange shadow-orange">
+                <button class="btn btn-bullet btn-icon color-orange">
                     <i class="fa fa-flag"></i>{{bulletTooltip}}
                 </button>
-                <button class="btn btn-bullet btn-icon hover-yellow">
+                <button class="btn btn-bullet btn-icon color-yellow">
                     <i class="fa fa-cog"></i>{{bulletTooltip}}
                 </button>
             </div>
             <div class="row">
-                <progress-button model="progress" onload="onload()" class="btn hover-green shadow-green" ng-click="doload()">click me</progress-button>
-                <progress-button model="progress" onload="onload()" class="btn hover-red shadow-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
-                <progress-button model="progress" onload="onload()" class="btn hover-blue shadow-blue" ng-click="doload()">progress button demo</progress-button>
+                <progress-button model="progress" onload="onload()" class="btn color-green" ng-click="doload()">click me</progress-button>
+                <progress-button model="progress" onload="onload()" class="btn color-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
+                <progress-button model="progress" onload="onload()" class="btn color-blue" ng-click="doload()">progress button demo</progress-button>
             </div>
 
             <div class="row">
-                <button class="btn hover-purple shadow-purple" ng-click="error('Error')">red alert</button>
-                <button class="btn shadow-green btn-icon" ng-click="alert('Success')">
+                <button class="btn color-purple" ng-click="error('Error')">red alert</button>
+                <button class="btn btn-icon" ng-click="alert('Success')">
                     <i class="fa fa-magic"></i>
                     green alert
                 </button>
@@ -62,15 +62,15 @@
         </div>
 
         <circular-scroller scroll="scroll" style="height: 50px">
-        <button class="btn btn-bullet hover-white btn-icon shadow-white hover-red" ng-click="warningModalShow(true)">
+        <button class="btn btn-bullet color-white btn-icon color-red" ng-click="warningModalShow(true)">
             <i class="fa fa-linkedin"></i>{{bulletTooltip}}
         </button>
-        <button class="btn btn-bullet btn-icon hover-orange shadow-orange">
+        <button class="btn btn-bullet btn-icon color-orange">
             <i class="fa fa-flag"></i>{{bulletTooltip}}
         </button>
         </circular-scroller>
-        <button ng-click="doscroll(130)" class="btn btn-icon hover-orange"><i class="fa fa-arrow-left"></i>left</button>
-        <button ng-click="doscroll(-130)" class="btn btn-icon hover-orange"><i class="fa fa-arrow-right"></i>right</button>
+        <button ng-click="doscroll(130)" class="raise btn border btn-icon btn-bullet hover color-orange"><i class="fa fa-arrow-left"></i>left</button>
+        <button ng-click="doscroll(-130)" class="btn border btn-icon color-orange"><i class="fa fa-arrow-right"></i>right</button>
 
         <script src="demo/js/bower.min.js"></script>
         <script src="dist/js/geekstrap.min.js"></script>
