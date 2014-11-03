@@ -1,0 +1,327 @@
+$fa-font-path: "/bower_components/font-awesome/fonts";
+@import "bower_components/font-awesome/scss/font-awesome";
+@import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "src/geekstrap/directives/circular-scroller/style";
+
+@mixin color($bgcolor, $color, $hover-bgcolor, $hover-color) {
+    background-color: $bgcolor;
+    color: $color;
+
+    &.raise {
+        $raise-offset: 4px;
+        $transition-time: 0.1s;
+
+        @include box-shadow(0 $raise-offset 0 darken($bgcolor, 18%));
+        margin-bottom: $raise-offset;
+        &.btn {
+            outline: none !important;
+            position: relative;
+            top: 0;
+            @include transition(top 0.1s, box-shadow 0.1s);
+            &:active {
+                top: $raise-offset;
+                @include box-shadow(0 0 darken($bgcolor, 18%));
+            }
+        }
+    }
+
+    &:hover, &:focus {
+        background-color: $bgcolor;
+        color: $color;
+    }
+
+    &.hover {
+        &:hover {
+            background-color: $hover-bgcolor;
+            color: $hover-color;
+        }
+
+        &:focus {
+            background-color: $bgcolor;
+            color: $color;
+        }
+
+        &.btn-bullet.btn-icon {
+            > .fa:before {
+                @include transition(width 0.5s);
+            }
+            &:hover {
+                background-color: $bgcolor;
+                color: $color;
+                > .fa:before {
+                    width: 100%;
+                }
+            }
+
+        }
+    }
+
+    &.btn-bullet.btn-icon {
+        > .fa:before {
+            color: $bgcolor !important;
+            background-color: lighten($color, 70%) !important;
+        }
+    }
+
+    &.border {
+        color: $bgcolor;
+        background-color: $color;
+        border: 2px solid $bgcolor;
+        &:hover {
+            background-color: $color !important;
+            color: $bgcolor !important;
+        }
+        &.btn-bullet.btn-icon {
+            > .fa:before {
+                top: -1px;
+                color: $color !important;
+                background-color: $bgcolor !important;
+            }
+        }
+    }
+}
+
+$yellow: #EFAE1D;
+$red: #F93030;
+$lightblue: #238FB5;
+$blue: #3A69A3;
+$green: #35AD28;
+$orange: #ED6D26;
+$purple: #7926B0;
+$lightgray: darken(#FFF, 10%);
+$darkgray: darken(#FFF, 50%);
+
+.color-lightblue {
+    @include color($lightblue, white, darken($lightblue, 5%), white);
+}
+
+.color-black {
+    @include color(black, white, lighten(black, 10%), white);
+}
+
+.color-purple {
+    @include color($purple, white, darken($purple, 5%), white);
+}
+
+.color-green {
+    @include color($green, white, darken($green, 5%), white);
+}
+
+.color-blue {
+    @include color($blue, white, darken($blue, 5%), white);
+}
+
+.color-yellow {
+    @include color($yellow, white, darken($yellow, 5%), white);
+}
+
+.color-red {
+    @include color($red, white, darken($red, 5%), white);
+}
+
+.color-white {
+    @include color(#FFF, black, darken(white, 50%), black);
+}
+
+.color-orange {
+    @include color($orange, white, darken($orange, 5%), white);
+}
+
+.color-lightgray {
+    @include color($lightgray, black, $darkgray, black);
+}
+
+.btn-icon {
+    position: relative;
+    height: 40px;
+    padding-left: 42px;
+    overflow: hidden;
+
+    .fa:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 20px;
+        line-height: 38px;
+        width: 38px;
+        height: 38px;
+        text-align: center;
+    }
+}
+
+a.btn-icon {
+    padding-top: 8px;
+}
+
+.btn-bullet {
+    border-radius: 50vh;
+
+    &.btn-icon > .fa:before {
+        border-radius: 50vh;
+    }
+}
+
+.fg-navbar {
+
+    .navbar-caret {
+        height: 5px;
+        width: 100px;
+        background-color: $lightblue;
+        position: absolute;
+        bottom: 0;
+        @include transition(all 0.5s);
+    }
+
+    .navbar-tab {
+        float: left;
+        min-height: 50px;
+    }
+
+    .navbar-tab + .navbar-tab {
+        >div {
+            min-height: 50px;
+            border-left: 1px solid black;
+        }
+    }
+}
+
+.progress-button {
+    height: 40px;
+    @include transition-transform(0.3s linear !important);
+    overflow: hidden;
+    position: relative;
+    .content {
+        @include transition(opacity 0.3s linear);
+    }
+    .progress-button-bar {
+        position: absolute;
+        height: 40px;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        background-color: black;
+        @include transition(all 0.3s linear);
+    }
+    &.loading {
+        box-shadow: 0 0 0 0;
+        border-radius: 0;
+        .content {
+            opacity: 0;
+        }
+        .progress-button-bar {
+            opacity: 0.7;
+        }
+        @include scaleY(0.3);
+    }
+
+}
+
+.alert {
+    display: inline-block;
+    min-width: 200px;
+    text-align: left;
+    opacity: 0.8;
+
+    @include transition(all 0.3s linear);
+
+    &.ng-enter, &.ng-move, &.ng-leave.ng-leave-active {
+        @include rotateX(90deg);
+        opacity: 0;
+    }
+
+    &.ng-enter.ng-enter-active, &.ng-move.ng-move-active, &.ng-leave {
+        @include rotateX(0deg);
+        opacity: 0.8;
+    }
+}
+
+.sidebar {
+
+    .sidebar-toggle {
+        line-height: 50px;
+        min-height: 50px;
+        width: 50px;
+        font-size: 20px;
+    }
+
+    position: relative;
+
+    .sidebar-content {
+        @include transition(left 0.4s ease);
+        left: -302px;
+        z-index: 9000;
+        height: 100vh;
+        top: 50px;
+        position: absolute;
+        background-color: $lightblue;
+        color: lighten($lightblue, 45%);
+
+        .sidebar-item {
+            width: 300px;
+            display: table;
+
+            >div {
+                float: left;
+                line-height: 40px;
+                background-color: inherit;
+            }
+
+            .sidebar-item-icon {
+                width: 50px;
+                font-size: 20px;
+            }
+
+            .sidebar-item-label {
+                padding-left: 30px;
+                text-align: left;
+                width: 250px;
+            }
+
+            +.sidebar-item {
+                border-top: 1px solid $lightgray;
+            }
+
+            &:hover, &.active{
+                @include transition(background-color 0.4s, color 0.4s);
+                color: white;
+                background-color: darken($lightblue, 15%);
+            }
+        }
+    }
+}
+
+.fg-modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    background-color: $lightblue;
+    color: white;
+    opacity: 0;
+    @include transition(opacity 0.5s);
+    z-index: 9200;
+    opacity: 0;
+    pointer-events: none;
+
+    &.visible {
+        pointer-events: all;
+        opacity: 0.9;
+    }
+
+}
+
+.vertical-block {
+    text-align: center;
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -0.25em;
+    }
+}
+
+.vertical-center {
+    display: inline-block;
+    vertical-align: middle;
+}
