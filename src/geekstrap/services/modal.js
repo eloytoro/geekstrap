@@ -15,10 +15,6 @@ angular.module('fg.geekstrap')
 
     this.wrapperTemplateUrl = 'geekstrap/templates/modal.html';
 
-    this.template = function (url) {
-        this.wrapperTemplateUrl = url;
-    };
-
     this.$get = function ($document, $compile, $rootScope, $http, $templateCache, $q) {
         var $scope = $rootScope.$new(),
             $element,
@@ -31,7 +27,11 @@ angular.module('fg.geekstrap')
             url: this.wrapperTemplateUrl,
             type: 'text/html'
         }).success(function (data) {
-            $compile(data)($scope, function (clone) {
+            $element = angular.element(data);
+            $element.find('[ng-transclude]')
+                .removeAttr('ng-transclude')
+                .addClass('fg-modal-transclude');
+            $compile($element)($scope, function (clone) {
                 $element = clone;
                 $document.find('body').append($element);
             });

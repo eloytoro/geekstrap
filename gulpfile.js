@@ -1,6 +1,6 @@
 var gulp            = require('gulp');
 var sass            = require('gulp-sass');
-var inject          = require("gulp-inject");
+var wiredep         = require('wiredep').stream;
 var mainBowerFiles  = require('main-bower-files')();
 var rename          = require('gulp-rename');
 var minifycss       = require('gulp-minify-css');
@@ -90,11 +90,7 @@ gulp.task('compile-demo-scss', function () {
 
 gulp.task('inject-demo-js', function () {
     gulp.src('index.html')
-        .pipe(inject(gulp.src(globs.bower.js, {
-            read: false
-        }, {
-            relative: true
-        })))
+        .pipe(wiredep())
         .pipe(gulp.dest('.'));
 });
 
