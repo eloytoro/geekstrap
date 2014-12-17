@@ -88,14 +88,17 @@ gulp.task('compile-demo-scss', function () {
         .pipe(gulp.dest('demo/css'));
 });
 
-gulp.task('compile-demo-js', function () {
-    return gulp.src(globs.bower.js)
-        .pipe(concat('bower.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('demo/js'))
+gulp.task('inject-demo-js', function () {
+    gulp.src('index.html')
+        .pipe(inject(gulp.src(globs.bower.js, {
+            read: false
+        }, {
+            relative: true
+        })))
+        .pipe(gulp.dest('.'));
 });
 
-gulp.task('compile-demo', ['compile-demo-scss', 'compile-demo-js']);
+gulp.task('compile-demo', ['compile-demo-scss', 'inject-demo-js']);
 
 gulp.task('ngdocs', ['compile-js', 'compile-demo'], function () {
     var options = {

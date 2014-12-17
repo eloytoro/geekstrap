@@ -1,0 +1,18 @@
+<div class="taima-modal-wrapper ng-hide" ng-show="show">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button type="button" class="close fa fa-minus" ng-click="close()">
+            </button>
+            <h4 class="panel-title" ng-bind="title"></h4>
+        </div>
+        <div class="panel-body fg-modal-transclude"></div>
+        <div class="panel-footer">
+            <button type="button" class="btn btn-default"
+                ng-click="close()">Cerrar</button>
+            <button type="button" class="btn btn-primary"
+                ng-click="save()">
+                Ok
+            </button>
+        </div>
+    </div>
+</div>
