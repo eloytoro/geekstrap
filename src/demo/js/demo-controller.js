@@ -2,7 +2,7 @@ angular.module('app', ['fg.geekstrap'])
 
 .config(function (ModalProvider) {
     ModalProvider.modal('demoModal', {
-        templateUrl: 'demo/templates/modal.html',
+        templateUrl: 'src/demo/templates/modal.html',
         title: 'Demo Modal'
     });
 })

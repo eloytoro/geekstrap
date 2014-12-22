@@ -1,9 +1,8 @@
-<!doctype html>
 <html ng-app="app">
     <head>
         <meta charset="UTF-8">
 
-        <link rel="stylesheet" href="src/demo/css/demo.min.css">
+        <link rel="stylesheet" href="/src/demo/css/demo.min.css">
 
     </head>
     <body ng-controller="BodyController" class="container-fluid text-center">
@@ -89,8 +88,18 @@
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <!-- endbower -->
-        <script src="dist/js/geekstrap.min.js"></script>
-        <script src="src/demo/js/demo-controller.js"></script>
+
+        <!-- inject:js -->
+        <script src="/src/demo/js/demo-controller.js"></script>
+        <script src="/src/geekstrap/module.js"></script>
+        <script src="/src/geekstrap/directives/sidebar/sidebar.js"></script>
+        <script src="/src/geekstrap/directives/progress-button/progress-button.js"></script>
+        <script src="/src/geekstrap/directives/navbar/navbar.js"></script>
+        <script src="/src/geekstrap/directives/circular-scroller/circular-scroller.js"></script>
+        <script src="/src/geekstrap/directives/alert/alert.js"></script>
+        <script src="/src/geekstrap/services/modal.js"></script>
+        <script src="/src/geekstrap/templates.js"></script>
+        <!-- endinject -->
 
     </body>
 </html>

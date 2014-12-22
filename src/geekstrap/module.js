@@ -1,1 +1,1 @@
-angular.module('fg.geekstrap', ['ngAnimate', 'fg.geekstrap.templates']);
+angular.module('fg.geekstrap', ['ngAnimate']);
