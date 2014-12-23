@@ -7,12 +7,6 @@
     </head>
     <body ng-controller="BodyController" class="container-fluid text-center">
 
-        <modal visible="warningModalVisible">
-        <p><h2>Warning!</h2></p>
-        <p>An error occurred</p>
-        <button class="color-yellow fa fa-close" ng-click="warningModalShow(false)">Close</button>
-        </modal>
-
         <navbar default="tab2" class="navbar-fixed-top">
         <navbar-tab link="sidebar" activable="false" class="color-white" ng-mouseenter="setPeek('-250px')">
         <sidebar icon="fa fa-bars" persist="true">
@@ -42,9 +36,9 @@
                 </button>
             </div>
             <div class="row">
-                <progress-button model="progress" onload="onload()" class="btn color-green" ng-click="doload()">click me</progress-button>
-                <progress-button model="progress" onload="onload()" class="btn color-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
-                <progress-button model="progress" onload="onload()" class="btn color-blue" ng-click="doload()">progress button demo</progress-button>
+                <progress-button model="progress" onload="onload()" class="raise btn color-green" ng-click="doload()">click me</progress-button>
+                <progress-button model="progress" onload="onload()" class="btn shine color-red" ng-click="doload()">{{bulletTooltip}}</progress-button>
+                <progress-button model="progress" onload="onload()" class="btn hover color-blue" ng-click="doload()">progress button demo</progress-button>
             </div>
 
             <div class="row">
@@ -61,15 +55,17 @@
         </div>
 
         <circular-scroller scroll="scroll" style="height: 50px">
-        <button class="btn btn-bullet color-white btn-icon color-red" ng-click="warningModalShow(true)">
+        <button class="btn raise btn-bullet color-white btn-icon color-red" ng-click="warningModalShow(true)">
             <i class="fa fa-linkedin"></i>{{bulletTooltip}}
         </button>
-        <button class="btn btn-bullet btn-icon color-orange">
+        <button class="btn shine btn-bullet btn-icon color-orange">
             <i class="fa fa-flag"></i>{{bulletTooltip}}
         </button>
         </circular-scroller>
-        <button ng-click="doscroll(130)" class="raise btn border btn-icon btn-bullet hover color-orange"><i class="fa fa-arrow-left"></i>left</button>
-        <button ng-click="doscroll(-130)" class="btn border btn-icon color-orange"><i class="fa fa-arrow-right"></i>right</button>
+        <div class="btn-group">
+            <button ng-click="doscroll(130)" class="raise btn shine btn-icon hover color-orange"><i class="fa fa-arrow-left"></i>left</button>
+            <button ng-click="doscroll(-130)" class="btn shine raise btn-icon color-orange"><i class="fa fa-arrow-right"></i>right</button>
+        </div>
 
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>

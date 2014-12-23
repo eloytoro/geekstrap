@@ -8,18 +8,15 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     color: $color;
 
     &.raise {
-        $raise-offset: 4px;
-        $transition-time: 0.1s;
-
-        @include box-shadow(0 $raise-offset 0 darken($bgcolor, 18%));
-        margin-bottom: $raise-offset;
+        @include box-shadow(0 4px 0 darken($bgcolor, 18%));
+        margin-bottom: 4px;
         &.btn {
             outline: none !important;
             position: relative;
             top: 0;
             @include transition(top 0.1s, box-shadow 0.1s);
             &:active {
-                top: $raise-offset;
+                top: 4px;
                 @include box-shadow(0 0 darken($bgcolor, 18%));
             }
         }
@@ -63,19 +60,12 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
         }
     }
 
-    &.border {
-        color: $bgcolor;
-        background-color: $color;
-        border: 2px solid $bgcolor;
-        &:hover {
-            background-color: $color !important;
-            color: $bgcolor !important;
-        }
-        &.btn-bullet.btn-icon {
-            > .fa:before {
-                top: -1px;
-                color: $color !important;
-                background-color: $bgcolor !important;
+    &.shine {
+        @include box-shadow(inset 0px 4px 8px white);
+        &.raise {
+            @include box-shadow(0 4px 0 darken($bgcolor, 18%), inset 0px 4px 8px white);
+            &:active {
+                background-color: darken($bgcolor, 4%);
             }
         }
     }

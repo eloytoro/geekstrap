@@ -21,6 +21,7 @@ var globs = {
     js: 'src/**/*.js',
     html: 'src/**/*.html',
     dist: {
+        scss: 'dist/**/*.scss',
         js: 'src/geekstrap/**/*.js',
         templates: 'src/geekstrap/**/*.html'
     },
@@ -80,7 +81,7 @@ gulp.task('template-watcher', function () {
 });
 
 gulp.task('scss-watcher', function () {
-    return gulp.watch(globs.scss, ['compile-demo-scss']);
+    return gulp.watch([globs.scss, globs.dist.scss], ['compile-demo-scss']);
 });
 
 gulp.task('compile-js', ['compile-templates'], function () {
@@ -94,9 +95,9 @@ gulp.task('compile-js', ['compile-templates'], function () {
 
 gulp.task('ngdocs', ['compile-js'], function () {
     var options = {
-        scripts: ['dist/js/geekstrap.min.js', 'demo/js/demo-controller.js'],
+        scripts: ['dist/js/geekstrap.min.js', 'src/demo/js/demo-controller.js'],
         html5Mode: false,
-        styles: ['demo/css/demo.min.css'],
+        styles: ['src/demo/css/demo.min.css'],
         title: 'Geekstrap'
     };
     return gulp.src(globs.js)

@@ -47,6 +47,7 @@ angular.module('fg.geekstrap')
 
         Modal.prototype.on = function (e, listener) {
             $rootScope.$on('modal:' + this.name + ':' + e, listener);
+            return this;
         };
 
         Modal.prototype.pop = function (scope) {
@@ -58,6 +59,7 @@ angular.module('fg.geekstrap')
                 scope = tempScope;
             }
 
+            var _this = this;
             $http({
                 method: 'GET',
                 cache: $templateCache,
@@ -68,11 +70,12 @@ angular.module('fg.geekstrap')
                     $element.find('.panel-body')
                         .html(clone);
                     $scope.show = true;
-                    $scope.title = this.title;
-                    currentModal = this;
+                    $scope.title = _this.title;
+                    currentModal = _this;
                     $rootScope.$broadcast('modal:' + this.name + ':open');
-                }.bind(this));
-            }.bind(this));
+                });
+            });
+            return this;
         };
 
         Modal.prototype.dismiss = function () {
