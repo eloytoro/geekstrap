@@ -11,7 +11,8 @@
     "src",
     "docs",
     "index.html",
-    "gulpfile.js"
+    "gulpfile.js",
+    "package.json"
   ],
   "main": [
     "dist/js/geekstrap.min.js",
