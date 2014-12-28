@@ -107,7 +107,10 @@ gulp.task('ngdocs', ['compile-js'], function () {
 
 gulp.task('compile', ['compile-js']);
 
-gulp.task('compile-demo', ['compile-demo-scss', 'compile-templates'], function () {
+gulp.task('compile-demo', [
+    'compile-demo-scss',
+    'compile-templates'
+], function () {
     return gulp.src('index.html')
         .pipe(inject(
             gulp.src([globs.dist.js, globs.demo.js])

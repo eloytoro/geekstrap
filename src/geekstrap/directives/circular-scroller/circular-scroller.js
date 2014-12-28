@@ -13,23 +13,23 @@ angular.module('fg.geekstrap')
  *  - Directives inside the scroller can't use the ng-transclude directive, this is a known bug caused by angular's compile method not removing the property from already compiled directives
  *
  * @example
- <example module="app">
-     <file name="index.html">
-         <div ng-controller="BodyController" class="demo-cscroller">
-             <circular-scroller scroll="scroll" fg-alias="cscroller">
-                 <img src="../demo/img/logo_footer.png" style="width: 190px"></img>
-             </circular-scroller>
-             <button ng-click="doscroll(-130)" class="btn color-purple btn-icon btn-bullet raise hover">
-                <i class="fa fa-arrow-left"></i>
-                 left
-             </button>
-             <button ng-click="doscroll(130)" class="btn color-lightblue raise hover btn-icon">
-                 <i class="fa fa-arrow-right"></i>
-                 right
-             </button>
-         </div>
-     </file>
- </example>
+<example module="app">
+    <file name="index.html">
+        <div ng-controller="BodyController" class="demo-cscroller">
+            <circular-scroller scroll="scroll" fg-alias="cscroller">
+                <img src="../demo/img/logo_footer.png" style="width: 190px"></img>
+            </circular-scroller>
+            <button ng-click="doscroll(-130)" class="btn color-purple btn-icon btn-bullet raise hover">
+               <i class="fa fa-arrow-left"></i>
+                left
+            </button>
+            <button ng-click="doscroll(130)" class="btn color-lightblue raise hover btn-icon">
+                <i class="fa fa-arrow-right"></i>
+                right
+            </button>
+        </div>
+    </file>
+</example>
  */
 .directive('circularScroller', ['$compile', function ($compile) {
     return {
