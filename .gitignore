@@ -1,7 +1,6 @@
 node_modules
-dist/*.min.*
 docs
 .tmp
 .sass-cache
-*.min.*
+src/demo/**/*.min.*
 bower_components
