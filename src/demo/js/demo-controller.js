@@ -65,12 +65,23 @@ angular.module('app', ['fg.geekstrap'])
     };
 
     $scope.doscroll = function(val) {
-        console.log($scope.cscroller);
         $scope.scroll += val;
     };
 
     $scope.warningModalShow = function(flag) {
         $scope.warningModalVisible = flag;
     };
+
+    $scope.myTags = [];
+
+    $scope.myAutocomplete = [
+        { id: 1, name: 'eloy' },
+        { id: 2, name: 'eloy2' },
+        { id: 3, name: 'eloy3' }
+    ];
+
+    $scope.$watch('myTags', function (val) {
+        console.log(val);
+    }, true);
 
 }]);

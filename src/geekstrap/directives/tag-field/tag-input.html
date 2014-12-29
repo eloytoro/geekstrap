@@ -1,0 +1,12 @@
+<div class="fg-tag-wrapper">
+    <div class="fg-tag-list">
+        <button class="btn btn-primary" ng-repeat="tag in tags" ng-click="splice($index)">
+            <i class="fa fa-times"></i>{{ tag.name }}
+        </button>
+    <input type="text" fg-tag-field="addTag" autocomplete="suggestions" strict class="fg-tag-input"></input>
+    <ul class="fg-tag-suggestion-list">
+        <li ng-repeat="suggestion in suggestions">
+            {{ suggestion.label }}
+        </li>
+    </ul>
+</div>
