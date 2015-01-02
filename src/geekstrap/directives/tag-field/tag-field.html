@@ -3,12 +3,7 @@
         <div class="fg-tag input-group-addon btn" ng-repeat="tag in tags" ng-click="splice($index)">
             <i class="fa fa-fw fa-times"></i>{{ label(tag) }}
         </div>
-        <input type="text"
-            fg-tag-field="addTag"
-            autocomplete="suggestions"
-            strict
-            class="fg-tag-input form-control">
-        </input>
+        <fg-submit-field callback="addTag"></fg-submit-field>
     </div>
     <ul class="list-group" ng-show="showList()">
         <li ng-repeat="suggestion in suggestions"
