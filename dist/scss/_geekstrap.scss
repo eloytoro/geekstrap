@@ -370,3 +370,22 @@ a.btn-icon {
         }
     }
 }
+
+.fg-tag-wrapper {
+    position: relative;
+
+    .list-group {
+        min-width: 100%;
+        position: absolute;
+        display: inline-block;
+        top: 33px;
+        left: 0px;
+
+        .list-group-item {
+            .fa {
+                margin-right: 5px;
+            }
+            text-align: left;
+        }
+    }
+}

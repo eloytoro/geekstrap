@@ -1,12 +1,18 @@
-<div class="fg-tag-wrapper">
-    <div class="fg-tag-list">
-        <button class="btn btn-primary" ng-repeat="tag in tags" ng-click="splice($index)">
-            <i class="fa fa-times"></i>{{ tag.name }}
-        </button>
-    <input type="text" fg-tag-field="addTag" autocomplete="suggestions" strict class="fg-tag-input"></input>
-    <ul class="fg-tag-suggestion-list">
-        <li ng-repeat="suggestion in suggestions">
-            {{ suggestion.label }}
+<div class="fg-tag-wrapper input-group form-group">
+    <div class="fg-tag input-group-addon btn" ng-repeat="tag in tags" ng-click="splice($index)">
+        <i class="fa fa-times"></i>{{ label(tag) }}
+    </div>
+    <input type="text"
+        fg-tag-field="addTag"
+        autocomplete="suggestions"
+        strict
+        class="fg-tag-input form-control">
+    </input>
+    <ul class="list-group" ng-show="showList()">
+        <li ng-repeat="suggestion in suggestions"
+            ng-class="{ active: $index == select }"
+            class="list-group-item">
+            <i class="fa" ng-class="getIcon(suggestion)"></i>{{ label(suggestion) }}
         </li>
     </ul>
 </div>

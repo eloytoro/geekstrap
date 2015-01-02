@@ -129,7 +129,8 @@ gulp.task('demo', [
 ], function () {
     browserSync({
         server: {
-            baseDir: './'
+            baseDir: './',
+            open: false
         }
     });
 });

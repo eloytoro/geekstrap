@@ -5,48 +5,42 @@ angular.module('fg.geekstrap')
         restrict: 'E',
         scope: {
             options: '@?autocomplete',
-            tags: '='
+            tags: '=',
+            getIcon: '=?'
         },
         templateUrl: 'geekstrap/directives/tag-field/tag-input.html',
         link: function (scope, element, attrs) {
             var input = element.find('input');
-            var target = null;
+            scope.select = 0;
+            scope.getIcon = scope.getIcon || function (item) {
+                return { 'fa-angle-double-right': true };
+            };
+            scope.label = function (item) { return item; };
 
             if (scope.options.match(/^\w+$/)) {
-                scope.autocomplete = scope.$parent[scope.options].map(function (item) {
-                    return {
-                        label: item.label ? item.label : item,
-                        object: item
-                    };
-                });
+                scope.autocomplete = scope.$parent[scope.options];
             } else {
                 var match = scope.options.split(' ');
-                if (match[1] === 'in' && match[2]) {
-                    target = match[0];
-                    scope.autocomplete = scope.$parent[match[2]].map(function (item) {
-                        return {
-                            label: item[target],
-                            object: item
-                        };
-                    });
-                } else {
-                    target = 'label';
+                if (match[1] === 'from' && match[2]) {
+                    scope.label = function (item) {
+                        return item[match[0]];
+                    };
+                    scope.autocomplete = scope.$parent[match[2]];
                 }
             }
 
             scope.addTag = function (val) {
-                if (
-                    'strict' in attrs &&
-                    attrs.strict !== 'false'
-                ) {
-                    if (scope.autocomplete.map(function (item) {
-                        return item.label;
-                    }).indexOf(val) < 0) {
-                        return false;
-                    } else {
-                        scope.tags.push(selectedSuggestion.object);
+                if ('strict' in attrs && attrs.strict !== 'false') {
+                    if (scope.suggestions.length) {
+                        if (scope.tags
+                            .map(scope.label)
+                            .indexOf(scope.label(scope.suggestions[scope.select])) > -1) {
+                            return true;
+                        }
+                        scope.tags.push(scope.suggestions[scope.select]);
                         return true;
                     }
+                    return false;
                 }
                 if (scope.tags.indexOf(val) > -1) {
                     return true;
@@ -55,12 +49,44 @@ angular.module('fg.geekstrap')
                 return true;
             };
 
+            scope.splice = function (index) {
+                scope.tags.splice(index, 1);
+            };
+
+            scope.showList = function () {
+                return input.val() && scope.isFocused;
+            };
+
             input.on('input', function (e) {
+                var val = input.val();
                 scope.suggestions = scope.autocomplete.filter(function (item) {
-                    return item.label.indexOf(input.val()) > -1;
+                    return scope.label(item).indexOf(val) > -1;
                 });
-                selectedSuggestion = scope.suggestions[0];
+                scope.select = 0;
                 scope.$apply();
+            });
+
+            input.on('keydown', function (e) {
+                var keyCode = e.which || e.keyCode;
+                if (keyCode == 9 || keyCode == 40) {
+                    e.preventDefault();
+                    scope.select = (scope.select + 1) % scope.suggestions.length;
+                    scope.$apply();
+                } else if (keyCode == 38){
+                    scope.select = (scope.select - 1) > -1 ?
+                       scope.select - 1 :
+                       scope.suggestions.length - 1;
+                    scope.$apply();
+                }
+            });
+
+            input.on('focusout', function () {
+                scope.select = 0;
+                scope.isFocused = false;
+            });
+
+            input.on('focusin', function (){
+                scope.isFocused = true;
             });
         }
     };

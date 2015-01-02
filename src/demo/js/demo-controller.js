@@ -34,8 +34,6 @@ angular.module('app', ['fg.geekstrap'])
 
     $scope.msg = 'WHY HELLO!';
 
-    setTimeout(function(){ Modal('demoModal').pop($scope); }, 1000);
-
     $scope.alerts = [];
 
     $scope.alert = function(text, type) {
@@ -74,11 +72,14 @@ angular.module('app', ['fg.geekstrap'])
 
     $scope.myTags = [];
 
-    $scope.myAutocomplete = [
-        { id: 1, name: 'eloy' },
-        { id: 2, name: 'eloy2' },
-        { id: 3, name: 'eloy3' }
-    ];
+    $scope.myAutocomplete = 'daf jdh jakds djaaksd asd as jdfjasd qjer moq e cmd'
+        .split(' ')
+        .map(function (item, index) {
+            return {
+                name: item,
+                id: index
+            };
+        });
 
     $scope.$watch('myTags', function (val) {
         console.log(val);
