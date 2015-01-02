@@ -6,14 +6,14 @@ angular.module('fg.geekstrap')
         scope: {
             options: '@?autocomplete',
             tags: '=',
-            getIcon: '=?'
+            getIcon: '=?icons'
         },
         templateUrl: 'geekstrap/directives/tag-field/tag-input.html',
         link: function (scope, element, attrs) {
             var input = element.find('input');
             scope.select = 0;
             scope.getIcon = scope.getIcon || function (item) {
-                return { 'fa-angle-double-right': true };
+                return 'fa-angle-double-right';
             };
             scope.label = function (item) { return item; };
 
@@ -88,6 +88,15 @@ angular.module('fg.geekstrap')
             input.on('focusin', function (){
                 scope.isFocused = true;
             });
+
+            scope.itemHover = function (index) {
+                scope.select = index;
+            };
+
+            scope.itemClick = function (item) {
+                scope.tags.push(item);
+                input.val('');
+            };
         }
     };
 });

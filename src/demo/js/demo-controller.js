@@ -72,7 +72,7 @@ angular.module('app', ['fg.geekstrap'])
 
     $scope.myTags = [];
 
-    $scope.myAutocomplete = 'daf jdh jakds djaaksd asd as jdfjasd qjer moq e cmd'
+    $scope.myAutocomplete = 'youtube google facebook twitter instagram yahoo github'
         .split(' ')
         .map(function (item, index) {
             return {
@@ -80,6 +80,10 @@ angular.module('app', ['fg.geekstrap'])
                 id: index
             };
         });
+
+    $scope.myIcons = function (item) {
+       return 'fa-' + item.name;
+    };
 
     $scope.$watch('myTags', function (val) {
         console.log(val);

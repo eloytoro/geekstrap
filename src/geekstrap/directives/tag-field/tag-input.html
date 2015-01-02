@@ -1,6 +1,6 @@
 <div class="fg-tag-wrapper input-group form-group">
     <div class="fg-tag input-group-addon btn" ng-repeat="tag in tags" ng-click="splice($index)">
-        <i class="fa fa-times"></i>{{ label(tag) }}
+        <i class="fa fa-fw fa-times"></i>{{ label(tag) }}
     </div>
     <input type="text"
         fg-tag-field="addTag"
@@ -11,8 +11,11 @@
     <ul class="list-group" ng-show="showList()">
         <li ng-repeat="suggestion in suggestions"
             ng-class="{ active: $index == select }"
+            ng-mouseenter="itemHover($index)"
+            ng-click="itemClick(suggestion)"
             class="list-group-item">
-            <i class="fa" ng-class="getIcon(suggestion)"></i>{{ label(suggestion) }}
+            <i class="fa fa-fw {{ getIcon(suggestion) }}"></i>
+            {{ label(suggestion) }}
         </li>
     </ul>
 </div>
