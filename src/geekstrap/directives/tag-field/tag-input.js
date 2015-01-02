@@ -6,7 +6,8 @@ angular.module('fg.geekstrap')
         scope: {
             options: '@?autocomplete',
             tags: '=',
-            getIcon: '=?icons'
+            getIcon: '=?icons',
+            limit: '=?'
         },
         templateUrl: 'geekstrap/directives/tag-field/tag-input.html',
         link: function (scope, element, attrs) {
@@ -59,9 +60,11 @@ angular.module('fg.geekstrap')
 
             input.on('input', function (e) {
                 var val = input.val();
+                var labels = scope.tags.map(scope.label);
                 scope.suggestions = scope.autocomplete.filter(function (item) {
-                    return scope.label(item).indexOf(val) > -1;
+                    return scope.label(item).indexOf(val) > -1 && labels.indexOf(scope.label(item)) < 0;
                 });
+                if (scope.limit) scope.suggestions.splice(scope.limit);
                 scope.select = 0;
                 scope.$apply();
             });
