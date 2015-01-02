@@ -62,7 +62,8 @@ angular.module('fg.geekstrap')
                 var val = input.val();
                 var labels = scope.tags.map(scope.label);
                 scope.suggestions = scope.autocomplete.filter(function (item) {
-                    return scope.label(item).indexOf(val) > -1 && labels.indexOf(scope.label(item)) < 0;
+                    return scope.label(item).indexOf(val) === 0 &&
+                        labels.indexOf(scope.label(item)) < 0;
                 });
                 if (scope.limit) scope.suggestions.splice(scope.limit);
                 scope.select = 0;
