@@ -1,10 +1,5 @@
 <div class="fg-tag-wrapper">
-    <div class="input-group form-group">
-        <div class="fg-tag input-group-addon btn" ng-repeat="tag in tags" ng-click="splice($index)">
-            <i class="fa fa-fw fa-times"></i>{{ label(tag) }}
-        </div>
-        <fg-submit-field callback="addTag"></fg-submit-field>
-    </div>
+    <fg-submit-field callback="addTag"></fg-submit-field>
     <ul class="list-group" ng-show="showList()">
         <li ng-repeat="suggestion in suggestions"
             ng-class="{ active: $index == select }"

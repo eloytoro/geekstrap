@@ -3,6 +3,7 @@ angular.module('fg.geekstrap')
 .directive('fgTagField', function () {
     return {
         restrict: 'E',
+        replace: true,
         scope: {
             options: '@?autocomplete',
             tags: '=',
@@ -48,10 +49,6 @@ angular.module('fg.geekstrap')
                 }
                 scope.tags.push(val);
                 return true;
-            };
-
-            scope.splice = function (index) {
-                scope.tags.splice(index, 1);
             };
 
             scope.showList = function () {

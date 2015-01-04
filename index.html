@@ -68,6 +68,11 @@
         </div>
 
         <form class="form-inline">
+            <div class="btn-group">
+                <button  ng-repeat="tag in myTags" class="btn raise color-blue hover shine">
+                    <i class="fa fa-fw fa-times"></i>{{ tag.name }}
+                </button>
+            </div>
             <fg-tag-field
                 tags="myTags"
                 icons="myIcons"
@@ -101,8 +106,8 @@
         <script src="/src/geekstrap/directives/tag-field/tag-field.js"></script>
         <script src="/src/geekstrap/directives/sidebar/sidebar.js"></script>
         <script src="/src/geekstrap/directives/progress-button/progress-button.js"></script>
-        <script src="/src/geekstrap/directives/navbar/navbar.js"></script>
         <script src="/src/geekstrap/directives/circular-scroller/circular-scroller.js"></script>
+        <script src="/src/geekstrap/directives/navbar/navbar.js"></script>
         <script src="/src/geekstrap/directives/autocomplete/autocomplete.js"></script>
         <script src="/src/geekstrap/directives/alias/fg-alias.js"></script>
         <script src="/src/geekstrap/directives/alert/alert.js"></script>

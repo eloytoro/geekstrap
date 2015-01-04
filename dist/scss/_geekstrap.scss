@@ -61,9 +61,9 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     }
 
     &.shine {
-        @include box-shadow(inset 0px 4px 8px white);
+        @include box-shadow(inset 0px 4px 6px -2px lighten($bgcolor, 40%));
         &.raise {
-            @include box-shadow(0 4px 0 darken($bgcolor, 18%), inset 0px 4px 8px white);
+            @include box-shadow(0 4px 0 darken($bgcolor, 18%), inset 0px 4px 6px -2px lighten($bgcolor, 40%));
             &:active {
                 background-color: darken($bgcolor, 4%);
             }
@@ -176,7 +176,6 @@ a.btn-icon {
 }
 
 .progress-button {
-    height: 40px;
     @include transition-transform(0.3s linear !important);
     overflow: hidden;
     position: relative;
@@ -381,7 +380,7 @@ a.btn-icon {
         display: inline-block;
         top: 33px;
         left: 0px;
-        @include box-shadow(0px 15px 20px lightgray);
+        @include box-shadow(0px 10px 20px lightgray);
 
         li {
             text-align: left;
