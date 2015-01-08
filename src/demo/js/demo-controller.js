@@ -34,6 +34,14 @@ angular.module('app', ['fg.geekstrap'])
 
     $scope.msg = 'WHY HELLO!';
 
+    Modal('demoModal').pop($scope)
+        .on('accept', function () {
+            throw 'ValidationError';
+        })
+        .on('dismiss', function () {
+            console.log('dismiss');
+        });
+
     $scope.alerts = [];
 
     $scope.alert = function(text, type) {
