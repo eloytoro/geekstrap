@@ -7,7 +7,7 @@ angular.module('app', ['fg.geekstrap'])
     });
 })
 
-.controller('BodyController', ['$scope', '$interval', 'Modal', function ($scope, $interval, Modal) {
+.controller('BodyController', function ($scope, $interval, Modal, $q) {
     $scope.bulletTooltip = "linkedin";
 
     $scope.scroll = 0;
@@ -36,7 +36,11 @@ angular.module('app', ['fg.geekstrap'])
 
     Modal('demoModal').pop($scope)
         .on('accept', function () {
-            throw 'ValidationError';
+            var deferred = $q.defer();
+
+            setTimeout(deferred.resolve, 1000);
+
+            return deferred.promise;
         })
         .on('dismiss', function () {
             console.log('dismiss');
@@ -81,20 +85,20 @@ angular.module('app', ['fg.geekstrap'])
     $scope.myTags = [];
 
     $scope.myAutocomplete = 'youtube google facebook twitter instagram yahoo github'
-        .split(' ')
-        .map(function (item, index) {
-            return {
-                name: item,
-                id: index
-            };
-        });
+    .split(' ')
+    .map(function (item, index) {
+        return {
+            name: item,
+            id: index
+        };
+    });
 
     $scope.myIcons = function (item) {
-       return 'fa-' + item.name;
+        return 'fa-' + item.name;
     };
 
     $scope.$watch('myTags', function (val) {
         console.log(val);
     }, true);
 
-}]);
+});

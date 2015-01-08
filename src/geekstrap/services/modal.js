@@ -5,6 +5,7 @@ angular.module('fg.geekstrap')
         this.templateUrl = config.templateUrl;
         this.template = config.template;
         this.title = config.title;
+        this.resolve = config.resolve;
         this.name = name;
     };
 
@@ -25,8 +26,7 @@ angular.module('fg.geekstrap')
             Modal = function (template) {
                 var callbacks = {
                     accept: [],
-                    dismiss: [],
-                    link: []
+                    dismiss: []
                 };
 
                 var wrap = function (prop, cb) {
@@ -47,8 +47,9 @@ angular.module('fg.geekstrap')
                     wrap('dismiss');
                 };
 
-                this.link = function () {
-                    wrap('link');
+                this.link = function (scope, element) {
+                    this.scope = scope;
+                    this.element = element;
                 };
 
                 this.on = function (e, cb) {
@@ -97,10 +98,10 @@ angular.module('fg.geekstrap')
             var link = function (element) {
                 $compile(element)(scope, function (clone) {
                     $element.find('.panel-body').html(clone);
-                    $scope.show = true;
                     $scope.title = _this.title;
                     currentModal = modal;
-                    modal.link();
+                    modal.link(scope, clone);
+                    $scope.show = true;
                 });
             };
 
