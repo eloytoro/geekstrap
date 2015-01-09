@@ -1,16 +1,19 @@
 angular.module('fg.geekstrap')
 
 .provider('Modal', function () {
-    var Modal = function (name, config) {
+    var ModalTemplate = function (name, config) {
         this.templateUrl = config.templateUrl;
+        this.template = config.template;
         this.title = config.title;
+        this.resolve = config.resolve;
         this.name = name;
     };
 
     var storage = [];
 
     this.modal = function (name, config) {
-        storage[name] = new Modal(name, config);
+        storage[name] = new ModalTemplate(name, config);
+        return this;
     };
 
     this.wrapperTemplateUrl = 'geekstrap/templates/modal.html';
@@ -19,7 +22,41 @@ angular.module('fg.geekstrap')
         var $scope = $rootScope.$new(),
             $element,
             deferred,
-            currentModal;
+            currentModal,
+            Modal = function (template) {
+                var callbacks = {
+                    accept: [],
+                    dismiss: []
+                };
+
+                var wrap = function (prop, cb) {
+                    $q.all(callbacks[prop].map(function (cb) {
+                        return $q.when(cb());
+                    })).then(function () {
+                        $scope.show = false;
+                    });
+                };
+
+                this.$template = template;
+
+                this.accept = function () {
+                    wrap('accept');
+                };
+
+                this.dismiss = function () {
+                    wrap('dismiss');
+                };
+
+                this.link = function (scope, element) {
+                    this.scope = scope;
+                    this.element = element;
+                };
+
+                this.on = function (e, cb) {
+                    callbacks[e].push(cb);
+                    return this;
+                };
+            };
 
         $http({
             method: 'GET',
@@ -45,12 +82,9 @@ angular.module('fg.geekstrap')
             currentModal.accept();
         };
 
-        Modal.prototype.on = function (e, listener) {
-            $rootScope.$on('modal:' + this.name + ':' + e, listener);
-            return this;
-        };
+        ModalTemplate.prototype.pop = function (scope) {
+            var modal = new Modal(this);
 
-        Modal.prototype.pop = function (scope) {
             if (scope.constructor.name === 'Object') {
                 var tempScope = $rootScope.$new();
                 scope.forEach(function (property, key) {
@@ -60,31 +94,29 @@ angular.module('fg.geekstrap')
             }
 
             var _this = this;
-            $http({
-                method: 'GET',
-                cache: $templateCache,
-                url: this.templateUrl,
-                type: 'text/html'
-            }).success(function (data) {
-                $compile(data)(scope, function (clone) {
-                    $element.find('.panel-body')
-                        .html(clone);
-                    $scope.show = true;
+
+            var link = function (element) {
+                $compile(element)(scope, function (clone) {
+                    $element.find('.panel-body').html(clone);
                     $scope.title = _this.title;
-                    currentModal = _this;
-                    $rootScope.$broadcast('modal:' + this.name + ':open');
+                    currentModal = modal;
+                    modal.link(scope, clone);
+                    $scope.show = true;
                 });
-            });
-            return this;
-        };
+            };
 
-        Modal.prototype.dismiss = function () {
-            $rootScope.$broadcast('modal:' + this.name + ':close');
-            $scope.show = false;
-        };
+            if (this.templateUrl) {
+                $http({
+                    method: 'GET',
+                    cache: $templateCache,
+                    url: this.templateUrl,
+                    type: 'text/html'
+                }).success(link);
+            } else {
+                link(this.template);
+            }
 
-        Modal.prototype.accept = function () {
-            $rootScope.$broadcast('modal:' + this.name + ':save');
+            return modal;
         };
 
         return function (name) {
