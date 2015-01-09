@@ -2,14 +2,9 @@
 
 .fg-cscroller-wrapper {
     overflow-x: hidden;
-    text-align: left;
     position: relative;
     height: 100%;
-    .fg-cscroller-box {
-        @include transition(margin-left 1s);
-        position: absolute;
-    }
     .fg-cscroller-element {
-        float: left;
+        position: absolute;
     }
 }

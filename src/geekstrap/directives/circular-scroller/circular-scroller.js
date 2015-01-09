@@ -31,156 +31,161 @@ angular.module('fg.geekstrap')
     </file>
 </example>
  */
-.directive('circularScroller', ['$compile', function ($compile) {
+.directive('circularScroller', function ($compile, $animate) {
+
+    var CSTemplate = function (element) {
+        this.element = element;
+        this.interpolate = $compile(element);
+    };
+
     return {
         restrict:'E',
         replace: true,
         transclude: true,
-        templateUrl: 'geekstrap/directives/circular-scroller/circular-scroller.html',
+        template: '<div class="fg-cscroller-wrapper"></div>',
         scope: {
-            scroll: '=?',
             alias: '=?'
         },
-        controller: ['$scope', '$element', '$window', '$timeout', '$compile',
-            function ($scope, $element, $window, $timeout, $compile) {
-                var _this = this;
-                var innerWidth = 0;
-                var box = $element[0].getElementsByClassName('fg-cscroller-box')[0];
-                var offset = 0;
-                var timeout;
-                var overflowRight = 0;
-                var overflowLeft = 0;
+        controller: function ($scope, $element, $window, $timeout, $compile) {
+            var _this = this;
+            var outerWidth = $element.width();
 
-                this.shown = [];
-                this.children = [];
-                this.exports = {};
+            this.shown = [];
+            this.children = [];
+            this.exports = {};
 
-                $scope.boxStyle = {};
+            var insert = function (clone) {
+                clone.css('left', clone.offset + 'px');
+            };
 
-                if (!$scope.scroll) $scope.scroll = 0;
-
-                function insert (element) {
-                    innerWidth += element[0].offsetWidth;
-                    element.addClass('fg-cscroller-element');
-                    $scope.boxStyle.width = innerWidth + 'px';
-                }
-
-                this.append = (function (link) {
-                    return function () {
-                        _this.children[overflowRight]
-                        ($scope.$parent, link);
-                    };
-                })(function (clone) {
-                    overflowRight = (overflowRight + 1) % _this.children.length;
+            this.append = function () {
+                var lastClone = _this.shown[_this.shown.length - 1];
+                var index = lastClone ?
+                    (lastClone.index + 1) % _this.children.length :
+                    0;
+                var offset;
+                _this.children[index].interpolate($scope.$parent, function (clone) {
                     _this.shown.push(clone);
-                    box.appendChild(clone[0]);
+                    $element.append(clone);
+                    clone.template = _this.children[index];
+                    offset = lastClone ?
+                        lastClone.offset + lastClone.template.width :
+                        0;
+                    clone.offset = offset;
+                    clone.index = index;
                     insert(clone);
                 });
+                return offset;
+            };
 
-                this.prepend = (function (link) {
-                    return function () {
-                        _this.children[_this.children.length - overflowLeft - 1]
-                        ($scope.$parent, link);
-                    };
-                })(function (clone) {
-                    overflowLeft = (overflowLeft + 1) % _this.children.length;
+            this.prepend = function () {
+                var firstClone = _this.shown[0];
+                var index = firstClone ?
+                    ((firstClone.index - 1 % _this.children.length) + _this.children.length) % _this.children.length :
+                    0;
+                var offset;
+                _this.children[index].interpolate($scope.$parent, function (clone) {
                     _this.shown.unshift(clone);
-                    box.insertBefore(clone[0], box.firstChild);
+                    $element.prepend(clone);
+                    clone.template = _this.children[index];
+                    offset = firstClone ?
+                        firstClone.offset - clone.template.width :
+                        0;
+                    clone.index = index;
+                    clone.offset = offset;
                     insert(clone);
-                    offset += clone[0].offsetWidth;
-                    $scope.boxStyle.left = -offset + 'px';
                 });
+                return offset;
+            };
 
-                this.pop = function () {
-                    var element = _this.shown.pop()[0];
-                    overflowRight = (overflowRight - 1 + _this.children.length) % _this.children.length;
-                    innerWidth -= element.offsetWidth;
-                    box.removeChild(element);
-                };
+            this.build = function (scroll) {
+                scroll = scroll || 0;
+                while (_this.append() < outerWidth - scroll);
+                while (_this.prepend() > 0 - scroll);
+            };
 
-                this.shift = function () {
-                    var element = _this.shown.shift()[0];
-                    innerWidth -= element.offsetWidth;
-                    overflowLeft = (overflowLeft - 1 + _this.children.length) % _this.children.length;
-                    offset -= element.offsetWidth;
-                    $scope.boxStyle.left = -offset + 'px';
-                    box.removeChild(element);
-                };
+            this.exports.transpose = function (scroll) {
+                _this.build(scroll);
+                _this.shown.forEach(function (clone, index) {
+                    // TODO HELP ME
+                    clone.stop().animate({
+                        left: (clone.offset += scroll) + 'px'
+                    }, 400, function () {
+                        _this.shown = _this.shown.filter(function (clone) {
+                            if (clone.offset + clone.template.width < 0 ||
+                                clone.offset > outerWidth) {
+                                clone.remove();
+                            return false;
+                            }
+                            return true;
+                        });
+                    });
+                    // clone.css('left', (clone.offset += scroll) + 'px');
+                });
+            };
 
-                this.build = function () {
-                    var outerWidth = $element[0].offsetWidth;
-                    while (outerWidth > innerWidth - offset + $scope.scroll)
-                        _this.append();
-                    while (offset - $scope.scroll < 0)
+            this.exports.transposeLeft = function (count) {
+                if (count > 0) {
+                    var current = offset;
+                    for (var i = 0; i < count; i++) {
                         _this.prepend();
-                    $scope.boxStyle.width = innerWidth + 'px';
-                    $scope.boxStyle['margin-left'] = $scope.scroll + 'px';
-                    if (timeout) { $timeout.cancel(timeout); }
-                    timeout = $timeout(_this.cleanup, 1000);
-                };
-
-                this.cleanup = function () {
-                    var outerWidth = $element[0].offsetWidth;
-                    while (outerWidth + _this.shown[_this.shown.length - 1][0].offsetWidth < innerWidth - offset + $scope.scroll)
-                        _this.pop();
-                    while (offset - $scope.scroll > _this.shown[0][0].offsetWidth)
-                        _this.shift();
-                    $scope.boxStyle.width = innerWidth + 'px';
-                };
-
-                this.exports.transposeLeft = function (count) {
-                    if (count > 0) {
-                        var current = offset;
-                        for (var i = 0; i < count; i++) {
-                            _this.prepend();
-                        }
-                        $scope.scroll += offset - current;
-                    } else {
-                        var acc = 0;
-                        count = Math.abs(count);
-                        for (var j = 0; j < count; j++) {
-                            acc += _this.shown[j][0].offsetWidth;
-                        }
-                        $scope.scroll -= acc;
                     }
-                };
-
-                this.exports.transposeRight = function (count) {
-                    if (count > 0) {
-                        var acc = 0;
-                        for (var i = 1; i <= count; i++) {
-                            acc += _this.shown[_this.shown.length - i][0].offsetWidth;
-                        }
-                        $scope.scroll -= acc;
-                    } else {
-                        var current = innerWidth;
-                        count = Math.abs(count);
-                        for (var j = 0; j < count; j++) {
-                            _this.append();
-                        }
-                        $scope.scroll += innerWidth - current;
+                    $scope.scroll += offset - current;
+                } else {
+                    var acc = 0;
+                    count = Math.abs(count);
+                    for (var j = 0; j < count; j++) {
+                        acc += _this.shown[j][0].offsetWidth;
                     }
-                };
+                    $scope.scroll -= acc;
+                }
+            };
 
-                angular.element($window).bind('resize', function() {
-                    _this.build();
-                    $scope.$apply();
-                });
-            }
-        ],
+            this.exports.transposeRight = function (count) {
+                if (count > 0) {
+                    var acc = 0;
+                    for (var i = 1; i <= count; i++) {
+                        acc += _this.shown[_this.shown.length - i][0].offsetWidth;
+                    }
+                    $scope.scroll -= acc;
+                } else {
+                    var current = innerWidth;
+                    count = Math.abs(count);
+                    for (var j = 0; j < count; j++) {
+                        _this.append();
+                    }
+                    $scope.scroll += innerWidth - current;
+                }
+            };
+
+            angular.element($window).bind('resize', function() {
+                outerWidth = $element.width();
+                _this.build();
+                $scope.$apply();
+            });
+        },
         link: function (scope, element, attrs, controller, transclude) {
             transclude(scope.$parent, function(clone, scope) {
-                for (var i = 0; i < clone.length; i++) {
-                    if (clone[i] instanceof Element)
-                        controller.children.push($compile(clone[i]));
-                }
+                clone.each(function () {
+                    if (this.nodeType == 3) return;
+                    var child = $('<div/>', {
+                        'class': 'fg-cscroller-element'
+                    });
+                    child.append(this);
+                    element.append(child);
+                    controller.children.push(new CSTemplate(child));
+                });
             });
 
-            scope.$watch('scroll', function (val) {
+            $(function() {
+                controller.children.forEach(function (child) {
+                    child.width = child.element.outerWidth();
+                    child.element.remove();
+                });
                 controller.build();
             });
 
             if (scope.alias) scope.alias = controller.exports;
         }
     };
-}]);
+});

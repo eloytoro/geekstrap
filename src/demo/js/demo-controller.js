@@ -10,8 +10,6 @@ angular.module('app', ['fg.geekstrap'])
 .controller('BodyController', ['$scope', '$interval', 'Modal', function ($scope, $interval, Modal) {
     $scope.bulletTooltip = "linkedin";
 
-    $scope.scroll = 0;
-
     $scope.sidebarItems = [{
         icon: 'anchor',
         title: '1'
@@ -62,8 +60,9 @@ angular.module('app', ['fg.geekstrap'])
         }, 200);
     };
 
+    $scope.scroller = {};
     $scope.doscroll = function(val) {
-        $scope.scroll += val;
+        $scope.scroller.transpose(val);
     };
 
     $scope.warningModalShow = function(flag) {
