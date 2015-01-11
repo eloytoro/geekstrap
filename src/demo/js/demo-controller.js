@@ -83,7 +83,18 @@ angular.module('app', ['fg.geekstrap'])
 
     $scope.myTags = [];
 
-    $scope.myAutocomplete = 'youtube google facebook twitter instagram yahoo github'
+    $scope.removeTag = function (tag) {
+        $scope.myTags.splice($scope.myTags.indexOf(tag), 1);
+        $scope.myAutocomplete.push(tag);
+    };
+
+    $scope.addTag = function (tag) {
+        $scope.myTags.push(tag);
+        $scope.myAutocomplete.splice($scope.myAutocomplete.indexOf(tag), 1);
+        return true;
+    };
+
+    $scope.myAutocomplete = 'youtube google facebook twitter instagram yahoo github bycicle calculator bus cc plug adjust anchor archive area-chart asterisk bank building calendar car camera code cogs dashboard download envelope female eye level-up lightbulb-o magic pencil phone paw plane heart rocket rss search sort spinner spoon times terminal trash tty users umbrella user warning wheelchair wifi inbox info'
     .split(' ')
     .map(function (item, index) {
         return {
@@ -95,9 +106,5 @@ angular.module('app', ['fg.geekstrap'])
     $scope.myIcons = function (item) {
         return 'fa-' + item.name;
     };
-
-    $scope.$watch('myTags', function (val) {
-        console.log(val);
-    }, true);
 
 });

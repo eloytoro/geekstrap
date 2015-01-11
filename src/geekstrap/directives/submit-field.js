@@ -2,18 +2,18 @@ angular.module('fg.geekstrap')
 
 .directive('fgSubmitField', function () {
     return {
-        restrict: 'E',
+        restrict: 'A',
         replace: true,
         scope: {
-            callback: '='
+            callback: '&fgSubmitField'
         },
-        template: '<input type="text" class="fg-tag-input form-control"></input>',
         link: function (scope, element, attrs) {
             element.on('keydown', function (e) {
                 if (e.which == 13) {
+                    e.preventDefault();
                     var val = element.val();
 
-                    if (scope.callback(val))
+                    if (scope.callback({ value: val }))
                         element.val('');
                     scope.$apply();
 

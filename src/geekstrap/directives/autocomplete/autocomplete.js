@@ -1,19 +1,19 @@
 angular.module('fg.geekstrap')
 
-.directive('fgTagField', function () {
+.directive('fgAutocomplete', function () {
     return {
         restrict: 'E',
         replace: true,
         scope: {
-            options: '@?autocomplete',
-            tags: '=',
-            getIcon: '=?icons',
+            options: '@list',
+            getIcon: '&?icons',
+            callback: '&',
             limit: '=?'
         },
-        templateUrl: 'geekstrap/directives/tag-field/tag-field.html',
+        templateUrl: 'geekstrap/directives/autocomplete/autocomplete.html',
         link: function (scope, element, attrs) {
             var input = element.find('input');
-            scope.select = 0;
+            scope.selected = 0;
             scope.getIcon = scope.getIcon || function (item) {
                 return 'fa-angle-double-right';
             };
@@ -31,24 +31,16 @@ angular.module('fg.geekstrap')
                 }
             }
 
-            scope.addTag = function (val) {
+            scope.select = function (val) {
                 if ('strict' in attrs && attrs.strict !== 'false') {
                     if (scope.suggestions.length) {
-                        if (scope.tags
-                            .map(scope.label)
-                            .indexOf(scope.label(scope.suggestions[scope.select])) > -1) {
-                            return true;
-                        }
-                        scope.tags.push(scope.suggestions[scope.select]);
-                        return true;
+                        return scope.callback({
+                            item: scope.suggestions[scope.selected]
+                        });
                     }
                     return false;
                 }
-                if (scope.tags.indexOf(val) > -1) {
-                    return true;
-                }
-                scope.tags.push(val);
-                return true;
+                return scope.callback({ item: val });
             };
 
             scope.showList = function () {
@@ -57,13 +49,11 @@ angular.module('fg.geekstrap')
 
             input.on('input', function (e) {
                 var val = input.val();
-                var labels = scope.tags.map(scope.label);
                 scope.suggestions = scope.autocomplete.filter(function (item) {
-                    return scope.label(item).indexOf(val) === 0 &&
-                        labels.indexOf(scope.label(item)) < 0;
+                    return scope.label(item).indexOf(val) === 0;
                 });
                 if (scope.limit) scope.suggestions.splice(scope.limit);
-                scope.select = 0;
+                scope.selected = 0;
                 scope.$apply();
             });
 
@@ -71,18 +61,18 @@ angular.module('fg.geekstrap')
                 var keyCode = e.which || e.keyCode;
                 if (keyCode == 9 || keyCode == 40) {
                     e.preventDefault();
-                    scope.select = (scope.select + 1) % scope.suggestions.length;
+                    scope.selected = (scope.selected + 1) % scope.suggestions.length;
                     scope.$apply();
                 } else if (keyCode == 38){
-                    scope.select = (scope.select - 1) > -1 ?
-                       scope.select - 1 :
+                    scope.selected = (scope.selected - 1) > -1 ?
+                       scope.selected - 1 :
                        scope.suggestions.length - 1;
                     scope.$apply();
                 }
             });
 
             input.on('focusout', function () {
-                scope.select = 0;
+                scope.selected = 0;
                 scope.isFocused = false;
             });
 
@@ -91,11 +81,11 @@ angular.module('fg.geekstrap')
             });
 
             scope.itemHover = function (index) {
-                scope.select = index;
+                scope.selected = index;
             };
 
             scope.itemClick = function (item) {
-                scope.tags.push(item);
+                scope.callback({ item: item });
                 input.val('');
             };
         }

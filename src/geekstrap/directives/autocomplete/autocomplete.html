@@ -1,13 +1,13 @@
-<div class="fg-tag-wrapper">
-    <fg-submit-field callback="addTag"></fg-submit-field>
+<fieldset class="fg-autocomplete-wrapper">
+    <input fg-submit-field="select(value)" class="form-control" />
     <ul class="list-group" ng-show="showList()">
         <li ng-repeat="suggestion in suggestions"
-            ng-class="{ active: $index == select }"
+            ng-class="{ active: $index == selected }"
             ng-mouseenter="itemHover($index)"
             ng-click="itemClick(suggestion)"
             class="list-group-item">
-            <i class="fa fa-fw {{ getIcon(suggestion) }}"></i>
+            <i class="fa fa-fw {{ getIcon({ item: suggestion }) }}"></i>
             {{ label(suggestion) }}
         </li>
     </ul>
-</div>
+</fieldset>
