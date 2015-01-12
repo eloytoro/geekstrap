@@ -5,7 +5,7 @@ angular.module('app', ['fg.geekstrap'])
         return {
             templateUrl: 'src/demo/templates/modal.html',
             defaults: {
-                dismiss: function () {
+                'dismiss accept': function () {
                     return $animate.addClass(this.element, 'fg-modal-fade');
                 },
                 link: function () {
@@ -56,41 +56,10 @@ angular.module('app', ['fg.geekstrap'])
             });
     };
 
-    $scope.alerts = [];
-
-    $scope.alert = function(text, type) {
-        $scope.alerts.push({
-            text: text,
-            class: "hover-green"
-        });
-    };
-    $scope.error = function(text, type) {
-        $scope.alerts.push({
-            text: text,
-            class: "hover-red"
-        });
-    };
-
-    $scope.onload = function() {
-        $interval.cancel(this.interval);
-        this.interval = undefined;
-    };
-
-    $scope.doload = function() {
-        if (this.interval) return;
-        $scope.progress = 0;
-        this.interval = $interval(function(tick) {
-            $scope.progress += 10;
-        }, 200);
-    };
-
     $scope.scroller = {};
+
     $scope.doscroll = function(val) {
         $scope.scroller.transpose(val);
-    };
-
-    $scope.warningModalShow = function(flag) {
-        $scope.warningModalVisible = flag;
     };
 
     $scope.myTags = [];
@@ -106,17 +75,11 @@ angular.module('app', ['fg.geekstrap'])
         return true;
     };
 
-    $scope.myAutocomplete = 'youtube google facebook twitter instagram yahoo github bycicle calculator bus cc plug adjust anchor archive area-chart asterisk bank building calendar car camera code cogs dashboard download envelope female eye level-up lightbulb-o magic pencil phone paw plane heart rocket rss search sort spinner spoon times terminal trash tty users umbrella user warning wheelchair wifi inbox info'
-    .split(' ')
-    .map(function (item, index) {
+    $scope.myAutocomplete = 'youtube google facebook twitter instagram yahoo github bycicle calculator bus cc plug adjust anchor archive area-chart asterisk bank building calendar car camera code cogs dashboard download envelope female eye level-up lightbulb-o magic pencil phone paw plane heart rocket rss search sort spinner spoon times terminal trash tty users umbrella user warning wheelchair wifi inbox info'.split(' ').map(function (item, index) {
         return {
             name: item,
             id: index
         };
     });
-
-    $scope.myIcons = function (item) {
-        return 'fa-' + item.name;
-    };
 
 });

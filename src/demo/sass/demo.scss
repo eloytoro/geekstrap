@@ -10,7 +10,9 @@
 
 .fg-modal {
 
-    @include box-shadow(0px 5px 5px -3px black);
+    .panel {
+        @include box-shadow(0px 5px 5px -3px black);
+    }
 
     position: absolute;
 
@@ -22,7 +24,6 @@
     margin: auto;
 
     opacity: 1;
-    background-color: transparent;
 
     @include transition(0.3s all);
 
