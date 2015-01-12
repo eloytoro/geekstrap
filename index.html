@@ -9,9 +9,6 @@
 
         <navbar default="tab2" class="navbar-fixed-top">
         <navbar-tab link="sidebar" activable="false" class="color-white" ng-mouseenter="setPeek('-250px')">
-        <sidebar icon="fa fa-bars" persist="true">
-        <sidebar-item icon="fa fa-{{item.icon}}" ng-repeat="item in sidebarItems" ng-click="item.onclick()">{{item.title}}</sidebar-item>
-        </sidebar>
         </navbar-tab>
         <navbar-tab style="width: 20%" link="tab2" class="color-white tab">tab</navbar-tab>
         <navbar-tab style="width: 20%" link="tab3" class="color-white tab">tab</navbar-tab>
@@ -77,13 +74,17 @@
                 </button>
             </div>
             <fg-autocomplete
-                icons="myIcons(item)"
+                icons="'fa-' + item.name"
                 list="name from myAutocomplete"
                 callback="addTag(item)"
                 strict
                 >
             </fg-autocomplete>
         </form>
+
+        <button class="btn color-red raise hover" ng-click="popModal()">
+            Pop Me
+        </button>
 
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -111,8 +112,6 @@
         <script src="/src/geekstrap/directives/navbar/navbar.js"></script>
         <script src="/src/geekstrap/directives/circular-scroller/circular-scroller.js"></script>
         <script src="/src/geekstrap/directives/autocomplete/autocomplete.js"></script>
-        <script src="/src/geekstrap/directives/alias/fg-alias.js"></script>
-        <script src="/src/geekstrap/directives/alert/alert.js"></script>
         <script src="/src/geekstrap/services/modal.js"></script>
         <script src="/src/geekstrap/directives/submit-field.js"></script>
         <script src="/src/geekstrap/templates.js"></script>

@@ -279,26 +279,6 @@ a.btn-icon {
     }
 }
 
-.fg-modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0; left: 0;
-    background-color: $lightblue;
-    color: white;
-    opacity: 0;
-    @include transition(opacity 0.5s);
-    z-index: 9200;
-    opacity: 0;
-    pointer-events: none;
-
-    &.visible {
-        pointer-events: all;
-        opacity: 0.9;
-    }
-
-}
-
 .vertical-block {
     text-align: center;
     &:before {
@@ -325,49 +305,17 @@ a.btn-icon {
     z-index: 9001;
     background-color:rgba(40,94,142,0.5);
 
-    &.ng-hide-add, &.ng-hide-remove {
-        @include transition(0.3s all);
-        display: block !important;
-        .panel {
-            @include transition(0.3s all);
-        }
-    }
-
-    .panel {
-
-        .panel-heading button {
-            outline: none;
-        }
-
-        .panel-body {
-            overflow-y: auto;
-            height: 50vh;
-            max-height: 50vh;
-        }
-        margin-top: 100px;
-        display: inline-block;
-        width: 70%;
-        text-align: left;
-        padding-bottom: 0;
-    }
+    opacity: 1;
 
     &.ng-hide {
         opacity: 0;
     }
 
-    &.ng-hide-remove-active.ng-hide-remove {
-        .panel {
-            margin-top: 100px;
-        }
+    &.ng-hide-add, &.ng-hide-remove {
+        @include transition(0.3s all);
+        display: block !important;
     }
 
-    &.ng-hide-add.ng-hide-add-active,
-    &.ng-hide-remove,
-    &.ng-hide {
-        .panel {
-            margin-top: 120px;
-        }
-    }
 }
 
 .fg-autocomplete-wrapper {

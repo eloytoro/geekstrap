@@ -4,83 +4,111 @@ angular.module('fg.geekstrap')
     var ModalTemplate = function (name, config) {
         this.templateUrl = config.templateUrl;
         this.template = config.template;
-        this.title = config.title;
-        this.resolve = config.resolve;
+        this.defaults = config.defaults;
         this.name = name;
     };
 
-    var storage = [];
+    var storage = {};
 
-    this.modal = function (name, config) {
-        storage[name] = new ModalTemplate(name, config);
-        return this;
+    var provider = this;
+
+    this.modal = function (name, invokable) {
+        storage[name] = function (injector) {
+            var results = injector.invoke(invokable);
+            return new ModalTemplate(name, results);
+        };
+        return provider;
     };
 
-    this.wrapperTemplateUrl = 'geekstrap/templates/modal.html';
+    this.$get = function ($document, $compile, $rootScope, $http, $templateCache, $q, $animate, $injector) {
 
-    this.$get = function ($document, $compile, $rootScope, $http, $templateCache, $q) {
+        // Set all configurations
+        Object.keys(storage).forEach(function (key) {
+            storage[key] = storage[key]($injector);
+        });
+
         var $scope = $rootScope.$new(),
             $element,
             deferred,
-            currentModal,
+            activeModals = [],
+
+            pushModal = function (modal) {
+                $element.append(modal.element);
+                modal.element.css('z-index', 10000 + activeModals.length);
+                activeModals.forEach(function (modal) {
+                    modal.sendBack();
+                });
+                activeModals.unshift(modal);
+                $scope.show = true;
+            },
+
+            shiftModal = function () {
+                var modal = activeModals.shift();
+                modal.element.remove();
+                activeModals.forEach(function (modal) {
+                    modal.bringForward();
+                });
+                $scope.show = activeModals.length;
+            },
+
             Modal = function (template) {
                 var callbacks = {
-                    accept: [],
-                    dismiss: []
+                    accept: [], dismiss: [], link: [],
+                    bringForward: [], sendBack: [],
+                    when: function (prop) {
+                        $q.all(callbacks[prop].map(function (cb) {
+                            return $q.when(cb());
+                        })).then(function () {
+                            shiftModal();
+                        });
+                    },
+                    call: function (prop) {
+                        callbacks[prop].forEach(function (cb) {
+                            cb();
+                        });
+                    }
                 };
-
-                var wrap = function (prop, cb) {
-                    $q.all(callbacks[prop].map(function (cb) {
-                        return $q.when(cb());
-                    })).then(function () {
-                        $scope.show = false;
-                    });
-                };
+                var _this = this;
 
                 this.$template = template;
 
                 this.accept = function () {
-                    wrap('accept');
+                    callbacks.when('accept');
                 };
 
                 this.dismiss = function () {
-                    wrap('dismiss');
+                    callbacks.when('dismiss');
                 };
 
-                this.link = function (scope, element) {
-                    this.scope = scope;
-                    this.element = element;
+                this.link = function (element) {
+                    _this.element = element;
+                    pushModal(_this);
+
+                    callbacks.call('link');
+                };
+
+                this.bringForward = function () {
+                    callbacks.call('bringForward');
+                };
+
+                this.sendBack = function () {
+                    callbacks.call('sendBack');
                 };
 
                 this.on = function (e, cb) {
-                    callbacks[e].push(cb);
-                    return this;
+                    e.split(' ').forEach(function (e) {
+                        callbacks[e].push(cb.bind(_this));
+                    });
+                    return _this;
                 };
             };
 
-        $http({
-            method: 'GET',
-            cache: $templateCache,
-            url: this.wrapperTemplateUrl,
-            type: 'text/html'
-        }).success(function (data) {
-            $element = angular.element(data);
-            $element.find('[ng-transclude]')
-                .removeAttr('ng-transclude')
-                .addClass('fg-modal-transclude');
-            $compile($element)($scope, function (clone) {
-                $element = clone;
-                $document.find('body').append($element);
-            });
+        $compile(angular.element(
+            '<div class="fg-modal-wrapper ng-hide" ng-show="show"></div>'
+        ))($scope, function (clone) {
+            $element = clone;
+            $document.find('body').append($element);
         });
-
-        $scope.close = function () {
-            currentModal.dismiss();
-        };
-
-        $scope.save = function () {
-            currentModal.accept();
-        };
 
         ModalTemplate.prototype.pop = function (scope) {
             var modal = new Modal(this);
@@ -91,18 +119,16 @@ angular.module('fg.geekstrap')
                     tempScope[key] = property;
                 });
                 scope = tempScope;
+            } else {
+                scope = scope.$new();
             }
+
+            scope.$modal = modal;
 
             var _this = this;
 
             var link = function (element) {
-                $compile(element)(scope, function (clone) {
-                    $element.find('.panel-body').html(clone);
-                    $scope.title = _this.title;
-                    currentModal = modal;
-                    modal.link(scope, clone);
-                    $scope.show = true;
-                });
+                $compile(element)(scope, modal.link);
             };
 
             if (this.templateUrl) {
@@ -116,11 +142,17 @@ angular.module('fg.geekstrap')
                 link(this.template);
             }
 
+            if (this.defaults) {
+                Object.keys(this.defaults).forEach(function (key) {
+                    modal.on(key, _this.defaults[key]);
+                });
+            }
+
             return modal;
         };
 
         return function (name) {
-            if (!name) return currentModal;
+            if (!name) return activeModals[0];
             return storage[name];
         };
     };

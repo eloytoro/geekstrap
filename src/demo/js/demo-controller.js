@@ -1,13 +1,28 @@
 angular.module('app', ['fg.geekstrap'])
 
 .config(function (ModalProvider) {
-    ModalProvider.modal('demoModal', {
-        templateUrl: 'src/demo/templates/modal.html',
-        title: 'Demo Modal'
+    ModalProvider.modal('demoModal', function ($animate) {
+        return {
+            templateUrl: 'src/demo/templates/modal.html',
+            defaults: {
+                dismiss: function () {
+                    return $animate.addClass(this.element, 'fg-modal-fade');
+                },
+                link: function () {
+                    $animate.removeClass(this.element, 'fg-modal-fade');
+                },
+                bringForward: function () {
+                    this.element.css('padding-top', '-=50px');
+                },
+                sendBack: function () {
+                    this.element.css('padding-top', '+=50px');
+                }
+            }
+        };
     });
 })
 
-.controller('BodyController', function ($scope, $interval, Modal, $q) {
+.controller('BodyController', function ($scope, $interval, Modal, $q, $animate) {
     $scope.bulletTooltip = "linkedin";
 
     $scope.sidebarItems = [{
@@ -30,19 +45,16 @@ angular.module('app', ['fg.geekstrap'])
         }
     }];
 
-    $scope.msg = 'WHY HELLO!';
+    $scope.popModal = function () {
+        Modal('demoModal').pop($scope)
+            .on('accept dismiss', function () {
+                var deferred = $q.defer();
 
-    Modal('demoModal').pop($scope)
-        .on('accept', function () {
-            var deferred = $q.defer();
+                setTimeout(deferred.resolve, 1000);
 
-            setTimeout(deferred.resolve, 1000);
-
-            return deferred.promise;
-        })
-        .on('dismiss', function () {
-            console.log('dismiss');
-        });
+                return deferred.promise;
+            });
+    };
 
     $scope.alerts = [];
 

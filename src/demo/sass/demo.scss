@@ -7,3 +7,52 @@
         margin-left: 15px;
     }
 }
+
+.fg-modal {
+
+    @include box-shadow(0px 5px 5px -3px black);
+
+    position: absolute;
+
+    top: 0; left: 0; bottom: 0; right: 0;
+
+    width: 70%;
+    max-height: 50%;
+
+    margin: auto;
+
+    opacity: 1;
+    background-color: transparent;
+
+    @include transition(0.3s all);
+
+    &.fg-modal-fade {
+        padding-top: 70px;
+        opacity: 0;
+    }
+}
+
+.panel {
+    border: none;
+
+    .panel-heading {
+        background-color: darken($red, 30%);
+    }
+
+    .panel-body {
+        text-align: left;
+    }
+
+    .panel-footer {
+        text-align: middle;
+    }
+
+    .panel-body, .panel-footer {
+        background-color: $red;
+    }
+
+    .panel-body, .panel-footer, .panel-heading {
+        color: white;
+        border: none;
+    }
+}

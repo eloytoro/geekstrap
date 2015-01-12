@@ -1,3 +1,20 @@
-<div>
-    <span ng-bind="msg"></span>
+<div class="fg-modal fg-modal-fade panel panel-default">
+    <div class="panel-heading">
+        <button type="button" class="close fa fa-times-circle" ng-click="$modal.dismiss()">
+        </button>
+        <h4 class="panel-title">Message</h4>
+    </div>
+    <div class="panel-body">
+        <button class="btn color-red raise hover" ng-click="popModal()">
+            Pop Me
+        </button>
+    </div>
+    <div class="panel-footer">
+        <button type="button" class="btn btn-default"
+            ng-click="$modal.dismiss()">Cerrar</button>
+        <button type="button" class="btn btn-primary"
+            ng-click="$modal.accept()">
+            Ok
+        </button>
+    </div>
 </div>
