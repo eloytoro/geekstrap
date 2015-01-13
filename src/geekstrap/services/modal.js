@@ -30,78 +30,89 @@ angular.module('fg.geekstrap')
         var $scope = $rootScope.$new(),
             $element,
             deferred,
-            activeModals = [],
+            activeModals = [];
 
-            pushModal = function (modal) {
-                $element.append(modal.element);
-                modal.element.css('z-index', 10000 + activeModals.length);
-                activeModals.forEach(function (modal) {
-                    modal.sendBack();
-                });
-                activeModals.unshift(modal);
-                $scope.show = true;
-            },
+        var pushModal = function (modal) {
+            $element.append(modal.element);
+            modal.element.css('z-index', 10000);
+            activeModals.forEach(function (modal) {
+                modal.conceal();
+            });
+            activeModals.unshift(modal);
+            $scope.show = true;
+        };
 
-            shiftModal = function () {
-                var modal = activeModals.shift();
-                modal.element.remove();
-                activeModals.forEach(function (modal) {
-                    modal.bringForward();
-                });
-                $scope.show = activeModals.length;
-            },
+        var shiftModal = function (modal) {
+            var index = activeModals.indexOf(modal);
+            activeModals.splice(index, 1);
+            modal.element.remove();
+            activeModals.forEach(function (item) {
+                if (item.$index > modal.$index) item.overlay();
+            });
+            $scope.show = activeModals.length;
+        };
 
-            Modal = function (template) {
-                var callbacks = {
-                    accept: [], dismiss: [], link: [],
-                    bringForward: [], sendBack: [],
-                    when: function (prop) {
-                        $q.all(callbacks[prop].map(function (cb) {
-                            return $q.when(cb());
-                        })).then(function () {
-                            shiftModal();
-                        });
-                    },
-                    call: function (prop) {
-                        callbacks[prop].forEach(function (cb) {
-                            cb();
-                        });
-                    }
-                };
-                var _this = this;
-
-                this.$template = template;
-
-                this.accept = function () {
-                    callbacks.when('accept');
-                };
-
-                this.dismiss = function () {
-                    callbacks.when('dismiss');
-                };
-
-                this.link = function (element) {
-                    _this.element = element;
-                    pushModal(_this);
-
-                    callbacks.call('link');
-                };
-
-                this.bringForward = function () {
-                    callbacks.call('bringForward');
-                };
-
-                this.sendBack = function () {
-                    callbacks.call('sendBack');
-                };
-
-                this.on = function (e, cb) {
-                    e.split(' ').forEach(function (e) {
-                        callbacks[e].push(cb.bind(_this));
+        var Modal = function (template) {
+            var _this = this;
+            var callbacks = {
+                accept: [], dismiss: [], link: [],
+                overlay: [], conceal: [], destroy: [],
+                when: function (prop) {
+                    $q.all(callbacks[prop].map(function (cb) {
+                        return $q.when(cb());
+                    })).then(_this.destroy);
+                },
+                call: function (prop) {
+                    callbacks[prop].forEach(function (cb) {
+                        cb();
                     });
-                    return _this;
-                };
+                }
             };
+
+            this.$template = template;
+
+            this.$index = 0;
+
+            this.accept = function () {
+                callbacks.when('accept');
+            };
+
+            this.dismiss = function () {
+                callbacks.when('dismiss');
+            };
+
+            this.destroy = function () {
+                shiftModal(_this);
+                callbacks.call('destroy');
+            }
+
+            this.link = function (element) {
+                _this.element = element;
+                pushModal(_this);
+
+                callbacks.call('link');
+            };
+
+            this.overlay = function () {
+                if (_this.$index === 0) return;
+                _this.element.css('z-index', '+=1');
+                _this.$index--;
+                callbacks.call('overlay');
+            };
+
+            this.conceal = function () {
+                _this.element.css('z-index', '-=1');
+                _this.$index++;
+                callbacks.call('conceal');
+            };
+
+            this.on = function (e, cb) {
+                e.split(' ').forEach(function (e) {
+                    callbacks[e].push(cb.bind(_this));
+                });
+                return _this;
+            };
+        };
 
         $compile(angular.element(
             '<div class="fg-modal-wrapper ng-hide" ng-show="show"></div>'
@@ -151,9 +162,17 @@ angular.module('fg.geekstrap')
             return modal;
         };
 
-        return function (name) {
+        var factory = function (name) {
             if (!name) return activeModals[0];
             return storage[name];
         };
+
+        factory.list = function (index) {
+            return activeModals.sort(function (a, b) {
+                return a.$index > b.$index;
+            });
+        };
+
+        return factory;
     };
 });

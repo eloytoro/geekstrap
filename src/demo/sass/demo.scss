@@ -28,7 +28,6 @@
     @include transition(0.3s all);
 
     &.fg-modal-fade {
-        padding-top: 70px;
         opacity: 0;
     }
 }

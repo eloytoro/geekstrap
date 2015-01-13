@@ -11,11 +11,15 @@ angular.module('app', ['fg.geekstrap'])
                 link: function () {
                     $animate.removeClass(this.element, 'fg-modal-fade');
                 },
-                bringForward: function () {
-                    this.element.css('padding-top', '-=50px');
+                overlay: function () {
+                    this.element.css('padding-top', '-=20px');
+                    this.scale += 0.1;
+                    this.element.css('transform', 'scale(' + this.scale + ')');
                 },
-                sendBack: function () {
-                    this.element.css('padding-top', '+=50px');
+                conceal: function () {
+                    this.scale = this.scale ? this.scale - 0.1 : 0.9;
+                    this.element.css('padding-top', '+=20px');
+                    this.element.css('transform', 'scale(' + this.scale + ')');
                 }
             }
         };
@@ -47,12 +51,14 @@ angular.module('app', ['fg.geekstrap'])
 
     $scope.popModal = function () {
         Modal('demoModal').pop($scope)
-            .on('accept dismiss', function () {
-                var deferred = $q.defer();
-
-                setTimeout(deferred.resolve, 1000);
-
-                return deferred.promise;
+            .on('link destroy', function () {
+                var modals = Modal.list();
+                if (modals.length == 2) {
+                    setTimeout(function () {
+                        modals[0].conceal();
+                        modals[1].overlay();
+                    }, 1000);
+                }
             });
     };
 
