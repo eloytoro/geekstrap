@@ -5,7 +5,7 @@ angular.module('app', ['fg.geekstrap'])
         return {
             templateUrl: 'src/demo/templates/modal.html',
             defaults: {
-                'dismiss accept': function () {
+                destroy: function () {
                     return $animate.addClass(this.element, 'fg-modal-fade');
                 },
                 link: function () {
@@ -20,6 +20,19 @@ angular.module('app', ['fg.geekstrap'])
                     this.scale = this.scale ? this.scale - 0.1 : 0.9;
                     this.element.css('padding-top', '+=20px');
                     this.element.css('transform', 'scale(' + this.scale + ')');
+                }
+            }
+        };
+    })
+    .modal('confirm', function ($animate) {
+        return {
+            templateUrl: 'src/demo/templates/confirm.html',
+            defaults: {
+                destroy: function () {
+                    return $animate.addClass(this.element, 'fg-modal-fade');
+                },
+                link: function () {
+                    $animate.removeClass(this.element, 'fg-modal-fade');
                 }
             }
         };
@@ -51,14 +64,9 @@ angular.module('app', ['fg.geekstrap'])
 
     $scope.popModal = function () {
         Modal('demoModal').pop($scope)
-            .on('link destroy', function () {
-                var modals = Modal.list();
-                if (modals.length == 2) {
-                    setTimeout(function () {
-                        modals[0].conceal();
-                        modals[1].overlay();
-                    }, 1000);
-                }
+            .on('accept', function () {
+                return Modal('confirm').pop()
+                    .when('accept');
             });
     };
 

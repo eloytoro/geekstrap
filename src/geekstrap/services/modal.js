@@ -32,35 +32,15 @@ angular.module('fg.geekstrap')
             deferred,
             activeModals = [];
 
-        var pushModal = function (modal) {
-            $element.append(modal.element);
-            modal.element.css('z-index', 10000);
-            activeModals.forEach(function (modal) {
-                modal.conceal();
-            });
-            activeModals.unshift(modal);
-            $scope.show = true;
-        };
-
-        var shiftModal = function (modal) {
-            var index = activeModals.indexOf(modal);
-            activeModals.splice(index, 1);
-            modal.element.remove();
-            activeModals.forEach(function (item) {
-                if (item.$index > modal.$index) item.overlay();
-            });
-            $scope.show = activeModals.length;
-        };
-
         var Modal = function (template) {
-            var _this = this;
+            var _this = this,
+                deferred = {};
+
             var callbacks = {
-                accept: [], dismiss: [], link: [],
-                overlay: [], conceal: [], destroy: [],
                 when: function (prop) {
-                    $q.all(callbacks[prop].map(function (cb) {
+                    return $q.all(callbacks[prop].map(function (cb) {
                         return $q.when(cb());
-                    })).then(_this.destroy);
+                    })).finally(deferred[prop].resolve, deferred[prop].reject);
                 },
                 call: function (prop) {
                     callbacks[prop].forEach(function (cb) {
@@ -69,27 +49,52 @@ angular.module('fg.geekstrap')
                 }
             };
 
-            this.$template = template;
+            'accept dismiss link overlay conceal destroy'
+                .split(' ')
+                .forEach(function (e) {
+                    deferred[e] = $q.defer();
+                    callbacks[e] = [];
+                });
 
+            this.$template = template;
             this.$index = 0;
 
             this.accept = function () {
-                callbacks.when('accept');
+                return callbacks.when('accept')
+                    .finally(_this.destroy);
             };
 
             this.dismiss = function () {
-                callbacks.when('dismiss');
+                return callbacks.when('dismiss')
+                    .finally(_this.destroy);
             };
 
             this.destroy = function () {
-                shiftModal(_this);
-                callbacks.call('destroy');
-            }
+                return callbacks.when('destroy')
+                    .finally(function () {
+                        var index = activeModals.indexOf(_this);
+                        activeModals.splice(index, 1);
+                        _this.element.remove();
+                        activeModals.forEach(function (modal) {
+                            if (modal.$index > _this.$index) modal.overlay();
+                        });
+                        $scope.show = activeModals.length;
+                    });
+            };
+
+            this.when = function (e) {
+                return deferred[e].promise;
+            };
 
             this.link = function (element) {
                 _this.element = element;
-                pushModal(_this);
-
+                $element.append(element);
+                _this.element.css('z-index', 10000);
+                activeModals.forEach(function (modal) {
+                    modal.conceal();
+                });
+                activeModals.unshift(_this);
+                $scope.show = true;
                 callbacks.call('link');
             };
 
@@ -124,11 +129,13 @@ angular.module('fg.geekstrap')
         ModalTemplate.prototype.pop = function (scope) {
             var modal = new Modal(this);
 
+            scope = scope || {};
+
             if (scope.constructor.name === 'Object') {
                 var tempScope = $rootScope.$new();
-                scope.forEach(function (property, key) {
-                    tempScope[key] = property;
-                });
+                for (var key in scope) {
+                    tempScope[key] = scope[key];
+                }
                 scope = tempScope;
             } else {
                 scope = scope.$new();
