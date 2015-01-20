@@ -20,8 +20,8 @@ var globs = {
     scss: 'src/**/*.scss',
     js: 'src/**/*.js',
     html: 'src/**/*.html',
-    dist: {
-        scss: 'dist/**/*.scss',
+    assets: {
+        scss: 'assets/**/*.scss',
         js: 'src/geekstrap/**/*.js',
         templates: 'src/geekstrap/**/*.html'
     },
@@ -53,17 +53,17 @@ gulp.task('reload', function () {
 });
 
 gulp.task('jshint', function () {
-    gulp.src(globs.dist.js)
+    gulp.src(globs.assets.js)
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('js-watcher', function () {
-    return gulp.watch([globs.dist.js, globs.demo.js], ['jshint', 'reload'])
+    return gulp.watch([globs.assets.js, globs.demo.js], ['jshint', 'reload'])
 });
 
 gulp.task('compile-templates', function () {
-    return gulp.src(globs.dist.templates)
+    return gulp.src(globs.assets.templates)
         .pipe(templateCache('templates.js', {
             module: 'fg.geekstrap',
             root: 'geekstrap',
@@ -77,25 +77,25 @@ gulp.task('html-watcher', function () {
 });
 
 gulp.task('template-watcher', function () {
-    return gulp.watch(globs.dist.templates, ['compile-templates']);
+    return gulp.watch(globs.assets.templates, ['compile-templates']);
 });
 
 gulp.task('scss-watcher', function () {
-    return gulp.watch([globs.scss, globs.dist.scss], ['compile-demo-scss']);
+    return gulp.watch([globs.scss, globs.assets.scss], ['compile-demo-scss']);
 });
 
 gulp.task('compile-js', ['compile-templates'], function () {
-    return gulp.src(globs.dist.js)
+    return gulp.src(globs.assets.js)
         .pipe(angularFilesort())
         .pipe(ngAnnotate())
         .pipe(concat('geekstrap.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('dist/js'));
+        .pipe(gulp.dest('assets/js'));
 });
 
 gulp.task('ngdocs', ['compile-js'], function () {
     var options = {
-        scripts: ['dist/js/geekstrap.min.js', 'src/demo/js/demo-controller.js'],
+        scripts: ['assets/js/geekstrap.min.js', 'src/demo/js/demo-controller.js'],
         html5Mode: false,
         styles: ['src/demo/css/demo.min.css'],
         title: 'Geekstrap'
@@ -113,7 +113,7 @@ gulp.task('compile-demo', [
 ], function () {
     return gulp.src('index.html')
         .pipe(inject(
-            gulp.src([globs.dist.js, globs.demo.js])
+            gulp.src([globs.assets.js, globs.demo.js])
                 .pipe(angularFilesort())
         ))
         .pipe(wiredep())

@@ -1,4 +1,7 @@
-@import "dist/scss/geekstrap";
+$fa-font-path: "/bower_components/font-awesome/fonts";
+@import "bower_components/font-awesome/scss/font-awesome";
+@import "bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "assets/stylesheets/geekstrap";
 
 .demo-cscroller {
     .fg-cscroller-wrapper { height: 80px; }

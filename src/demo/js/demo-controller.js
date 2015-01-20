@@ -65,8 +65,17 @@ angular.module('app', ['fg.geekstrap'])
     $scope.popModal = function () {
         Modal('demoModal').pop($scope)
             .on('accept', function () {
-                return Modal('confirm').pop()
-                    .when('accept');
+                var deferred = $q.defer();
+                Modal('confirm')
+                    .pop($scope)
+                    .on('accept', function () {
+                        $scope.isLoading = true;
+                        setTimeout(function () {
+                            deferred.resolve();
+                        }, 1500);
+                        return deferred.promise;
+                    });
+                return deferred.promise;
             });
     };
 
