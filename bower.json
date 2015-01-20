@@ -16,6 +16,6 @@
   ],
   "main": [
     "dist/js/geekstrap.min.js",
-    "dist/scss/_geekstrap.scss"
+    "dist/scss/geekstrap.scss"
   ]
 }
